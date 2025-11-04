@@ -1,24 +1,42 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# StellaLab（ステララボ）
+Research-grade insights, player-friendly by design. <br/>
+研究水準の知見を、プレイヤーフレンドリーな設計で。
+## サイト概要
+### サイトテーマ
+* 「攻略データベース × コミュニティサイト」<br/>
+* 「話題をトピック単位で整理できる、プレイヤーにやさしい攻略コミュニティサイト」
+### テーマを選んだ理由
+既存の攻略サイトでは、コメントが時系列に流れて話題が混在しやすく、PC閲覧時の読みづらさも課題と感じていました。
+特に ビルド／スキル回し／編成相性 のような細分化された議論では、トピック分離とスレッド管理が不可欠です。
+そこで、管理側の正規化されたデータベースと、ユーザー側のトピック型ディスカッションを組み合わせ、検索性・可読性・議論の質を高める場を提供するため、本テーマを選定しました。
+​
+### ターゲットユーザ
+* 架空オンラインゲームの最新キャラ／スキル情報や検証結果を追いたいプレイヤー
+* ビルド研究を行い、知見を交換したい初級〜上級者
+* 過去ログをトピック別に学びたい初心者
+* ギルド／クラン運営で、告知・ノウハウ共有を整理したい担当者
+​
+### 主な利用シーン
+* アップデート直後：新キャラ／新スキルの性能・使用感・相性を素早く把握
+* 編成検討時：特定コンテンツ向けビルド案・立ち回りを議論・検証
+* Q&A：トピック別に質問し、解決済みフラグで後から参照しやすく
+* 管理更新：Adminがキャラ／スキル／装備を安全に登録し、下書き→公開を切替
+​
+## 設計書
+後ほど作成予定
+​
+## 開発環境
+- OS：Windows
+- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- フレームワーク：Ruby on Rails
+- JSライブラリ：jQuery
+- IDE：Visual Studio Code（VSCode）
+​
+## 使用素材
+<!-- - 外部サービスの画像素材・音声素材を使用した場合は、必ずサービス名とURLを明記してください。 -->
+<!-- - アプリケーションの実装に使用したgem/bootstrapのリファレンスなどの記載は不要です。 -->
+<!-- - 使用しない場合は、使用素材の項目をREADMEから削除してください。 -->
+<!-- - 架空の団体・題材を前提にポートフォリオを制作する場合、下記のテンプレートを当項目内に記載しましょう。 -->
+<!-- 【テンプレート】 -->
+<!-- 著作権を考慮し、架空のデータを扱う予定です。 -->
+<!-- なお今後、実在するデータを利用する際には、事前に著作権保持者と契約を結んだ上で利用します。 -->
