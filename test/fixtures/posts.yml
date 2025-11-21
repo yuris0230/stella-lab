@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  topic: one
+  user: one
+  guest_name: MyString
+  body: MyText
+  is_deleted: false
+  deleted_by_admin_id: 1
+
+two:
+  topic: two
+  user: two
+  guest_name: MyString
+  body: MyText
+  is_deleted: false
+  deleted_by_admin_id: 1
