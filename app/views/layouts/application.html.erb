@@ -11,6 +11,16 @@
   </head>
 
   <body>
+    <%= render "layouts/header" %>
+
+    <% if notice.present? %>
+      <p><%= notice %></p>
+    <% end %>
+
+    <% if alert.present? %>
+      <p><%= alert %></p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

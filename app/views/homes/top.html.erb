@@ -1,0 +1,11 @@
+<h1>Top</h1>
+
+<% if user_signed_in? %>
+  <p>ログイン中: <%= current_user.email %></p>
+  <p><%= link_to "マイページへ", my_page_path %></p>
+  <p><%= link_to "投稿一覧を見る", posts_path %></p>
+<% else %>
+  <p>このサイトでは投稿を作成して共有できます。</p>
+  <p><%= link_to "新規登録", new_user_registration_path %></p>
+  <p><%= link_to "ログイン", new_user_session_path %></p>
+<% end %>

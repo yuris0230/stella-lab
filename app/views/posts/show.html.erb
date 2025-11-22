@@ -1,0 +1,22 @@
+<h1><%= @post.title %></h1>
+
+<p><%= simple_format(@post.body) %></p>
+
+<p>
+  作成者:
+  <% if @post.author.present? %>
+    <%= @post.author.email %>
+  <% else %>
+    ゲスト
+  <% end %>
+</p>
+
+<% if user_signed_in? && @post.author == current_user %>
+  <p>
+    <%= link_to "編集", edit_post_path(@post) %> |
+    <%= link_to "削除", post_path(@post), method: :delete,
+                data: { confirm: "本当に削除しますか？" } %>
+  </p>
+<% end %>
+
+<p><%= link_to "一覧に戻る", posts_path %></p>
