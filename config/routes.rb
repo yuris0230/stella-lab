@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
+  # Top and About
+  root to: "homes#top"
+  get "about", to: "homes#about"
+
+  # Devise
   devise_for :admins
   devise_for :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  
+  # CRUD
+  resources :posts
+
+  # My page + unsubscribe
+  get "my_page", to: "users#show"
+  delete "users/withdraw", to: "users#destroy", as: :users_withdraw
 end

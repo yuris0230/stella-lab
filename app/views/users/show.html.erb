@@ -1,0 +1,29 @@
+<h1>マイページ</h1>
+
+<h2>ユーザー情報</h2>
+<p>メールアドレス: <%= @user.email %></p>
+
+<% if @user.respond_to?(:name) && @user.name.present? %>
+  <p>名前: <%= @user.name %></p>
+<% end %>
+
+<% if @user.user_profile.present? %>
+  <p>表示名: <%= @user.user_profile.display_name %></p>
+  <p>自己紹介:</p>
+  <p><%= simple_format(@user.user_profile.bio) %></p>
+<% end %>
+
+<p><%= link_to "登録情報を編集する", edit_user_registration_path %></p>
+
+<h2>自分の投稿</h2>
+<% @posts.each do |post| %>
+  <article>
+    <h3><%= link_to post.title, post_path(post) %></h3>
+    <p><%= truncate(post.body, length: 80) %></p>
+  </article>
+<% end %>
+
+<h2>退会</h2>
+<p>アカウントを削除すると、元に戻すことはできません。</p>
+<%= button_to "退会する", users_withdraw_path, method: :delete,
+              data: { confirm: "本当に退会しますか？" } %>
