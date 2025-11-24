@@ -7,7 +7,7 @@ class CreateTopics < ActiveRecord::Migration[6.1]
       t.string  :title, null: false
       t.integer :status, null: false, default: 0 # 0: open, 1: closed
 
-      t.integer :created_by_user_id, null: false # FK to users
+      t.bigint :created_by_user_id, null: false # FK to users
       t.boolean :pinned, null: false, default: false # admin用
       t.boolean :locked, null: false, default: false # admin用
 
