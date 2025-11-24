@@ -6,7 +6,7 @@ class CreateGuides < ActiveRecord::Migration[6.1]
       t.text    :body,  null: false
       t.string  :category, null: false # newbie, system, gacha 等
 
-      t.integer :author_admin_id, null: false # 執筆管理者
+      t.bigint :author_admin_id, null: false # 執筆管理者
       t.boolean :is_published, null: false, default: false
 
       t.timestamps
