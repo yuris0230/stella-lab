@@ -1,4 +1,5 @@
-class TierListEntry < ApplicationRecord
-  belongs_to :tier_list
-  belongs_to :character
+class TierList < ApplicationRecord
+  has_many :tier_list_entries, dependent: :destroy
+
+  validates :title, presence: true
 end
