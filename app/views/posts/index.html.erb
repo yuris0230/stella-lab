@@ -1,0 +1,21 @@
+<h1>投稿一覧</h1>
+
+<% if user_signed_in? %>
+  <p><%= link_to "新規投稿", new_post_path %></p>
+<% end %>
+
+<% @posts.each do |post| %>
+  <article>
+    <h2><%= link_to post.title, post_path(post) %></h2>
+    <p><%= truncate(post.body, length: 100) %></p>
+    <p>
+      作成者:
+      <% if post.author.present? %>
+        <%= post.author.email %>
+      <% else %>
+        ゲスト
+      <% end %>
+    </p>
+  </article>
+  <hr>
+<% end %>
