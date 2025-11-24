@@ -8,7 +8,7 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.text    :body, null: false # 本文
 
       t.boolean :is_deleted, null: false, default: false # 論理削除フラグ
-      t.integer :deleted_by_admin_id # 管理者削除時のAdmin ID
+      t.bigint :deleted_by_admin_id # 管理者削除時のAdmin ID
 
       t.timestamps
     end
