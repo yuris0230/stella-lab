@@ -1,0 +1,55 @@
+<div class="page-content">
+  <div class="home-page">
+    <!-- Page header -->
+    <section class="home-hero">
+      <h1 class="home-title">Items</h1>
+      <p class="home-lead">
+        Browse all items such as weapons, armor, accessories and materials.
+        Filtering by type and rarity will be added in a later feature.
+      </p>
+    </section>
+
+    <!-- Items list -->
+    <section class="home-section">
+      <h2 class="home-section-title">Item list</h2>
+
+      <% if @items.any? %>
+        <div class="home-row-list">
+          <% @items.each do |item| %>
+            <%= link_to item_path(item), class: 'home-row home-row-link' do %>
+              <div class="home-row-body">
+                <div class="home-row-label">
+                  <%= item.name %>
+                  <% if item.released_on.present? %>
+                    <span style="font-size: 0.8rem; color: #9ca3af; margin-left: 8px;">
+                      (<%= item.released_on %>)
+                    </span>
+                  <% end %>
+                </div>
+                <div class="home-row-meta">
+                  <span><strong>Type:</strong> <%= item.item_type %></span>
+                  <% if item.rarity.present? %>
+                    &nbsp;|&nbsp;
+                    <span><strong>Rarity:</strong> <%= item.rarity %></span>
+                  <% end %>
+                </div>
+              </div>
+              <div class="home-row-stat">
+                <span class="home-row-arrow">›</span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Pagination -->
+        <div style="margin-top: 16px;">
+          <%= paginate @items %>
+        </div>
+      <% else %>
+        <p class="home-lead-sub">
+          No items have been registered yet.
+        </p>
+      <% end %>
+    </section>
+  </div>
+</div>
