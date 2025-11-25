@@ -1,11 +1,123 @@
-<h1>Top</h1>
+<div class="home-page">
 
-<% if user_signed_in? %>
-  <p>ログイン中: <%= current_user.email %></p>
-  <p><%= link_to "マイページへ", my_page_path %></p>
-  <p><%= link_to "投稿一覧を見る", posts_path %></p>
-<% else %>
-  <p>このサイトでは投稿を作成して共有できます。</p>
-  <p><%= link_to "新規登録", new_user_registration_path %></p>
-  <p><%= link_to "ログイン", new_user_session_path %></p>
-<% end %>
+  <!-- Hero / introduction -->
+  <section class="home-hero">
+    <h1 class="home-title">Welcome to Stella Lab</h1>
+
+    <p class="home-lead">
+      Stella Lab is a fan-made data & community hub for your favorite game.
+      You can browse characters & items, check tier lists, read guides, and
+      discuss with other players.
+    </p>
+
+    <p class="home-lead-sub">
+      Create an account to join discussions and post your own content
+      (community features are planned).
+    </p>
+  </section>
+
+  <!-- Site overview: banner style with number on the right -->
+  <section class="home-section">
+    <h2 class="home-section-title">Site overview</h2>
+
+    <div class="home-row-list">
+      <div class="home-row">
+        <div class="home-row-body">
+          <div class="home-row-label">Characters</div>
+          <div class="home-row-meta">Characters & units in the game.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-count"><%= @character_count %></span>
+        </div>
+      </div>
+
+      <div class="home-row">
+        <div class="home-row-body">
+          <div class="home-row-label">Items</div>
+          <div class="home-row-meta">Weapons, gear & other items.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-count"><%= @item_count %></span>
+        </div>
+      </div>
+
+      <div class="home-row">
+        <div class="home-row-body">
+          <div class="home-row-label">Guides</div>
+          <div class="home-row-meta">Articles written by admins.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-count"><%= @guide_count %></span>
+        </div>
+      </div>
+
+      <div class="home-row">
+        <div class="home-row-body">
+          <div class="home-row-label">Topics</div>
+          <div class="home-row-meta">Community topics & discussions.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-count"><%= @topic_count %></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick access: banner style + clickable (เหมือนกล่องรายการ event) -->
+  <section class="home-section">
+    <h2 class="home-section-title">Quick access</h2>
+
+    <div class="home-row-list">
+      <%= link_to characters_path, class: 'home-row home-row-link' do %>
+        <div class="home-row-body">
+          <div class="home-row-label">Characters</div>
+          <div class="home-row-meta">Browse all characters.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-arrow">›</span>
+        </div>
+      <% end %>
+
+      <%= link_to items_path, class: 'home-row home-row-link' do %>
+        <div class="home-row-body">
+          <div class="home-row-label">Items</div>
+          <div class="home-row-meta">Weapons & relics.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-arrow">›</span>
+        </div>
+      <% end %>
+
+      <%= link_to tier_lists_path, class: 'home-row home-row-link' do %>
+        <div class="home-row-body">
+          <div class="home-row-label">Tier lists</div>
+          <div class="home-row-meta">Meta overview and rankings.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-arrow">›</span>
+        </div>
+      <% end %>
+
+      <%= link_to guides_path, class: 'home-row home-row-link' do %>
+        <div class="home-row-body">
+          <div class="home-row-label">Guides</div>
+          <div class="home-row-meta">Tips, builds & explanations.</div>
+        </div>
+        <div class="home-row-stat">
+          <span class="home-row-arrow">›</span>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- What can you do here? -->
+  <section class="home-section">
+    <h2 class="home-section-title">What can you do here?</h2>
+    <ul class="home-bullet-list">
+      <li>Check character and item data.</li>
+      <li>See tier lists created by admins.</li>
+      <li>Read guides and tips for beginners and advanced players.</li>
+      <li>Discuss in topics and share your own posts.</li>
+    </ul>
+  </section>
+</div>

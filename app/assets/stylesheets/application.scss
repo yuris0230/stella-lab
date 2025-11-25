@@ -14,7 +14,7 @@
  *= require_self
  */
 
-/* ========== THEME VARIABLES ========== */
+/* ==================== THEME VARIABLES ==================== */
 :root {
   --app-navbar-height: 48px;
   --app-sidebar-width: 260px;
@@ -32,7 +32,7 @@
   --app-accent-soft: rgba(29, 161, 242, 0.12);
 }
 
-/* ========== GLOBAL ========== */
+/* ==================== GLOBAL LAYOUT ==================== */
 
 html,
 body {
@@ -42,30 +42,28 @@ body {
 }
 
 body.app-body {
-  height: 100%;
+  min-height: 100vh;
   background-color: var(--app-bg-body);
   color: var(--app-text-main);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  overflow: hidden; /* เลื่อนทั้งจอไม่ได้ ให้เลื่อนเฉพาะ main */
 }
 
 .app-shell {
-  position: relative;
-  height: 100%;
+  height: 100vh;
 }
 
-/* ========== SIDEBAR (FULL HEIGHT LEFT) ========== */
+/* ==================== SIDEBAR ==================== */
 
 .app-sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0; /* ยาวถึงล่างสุด */
+  bottom: 0;
   width: var(--app-sidebar-width);
   background-color: var(--app-bg-sidebar);
   padding: 0.9rem 0.8rem 0.8rem;
   overflow-y: auto;
-  z-index: 1030; /* อยู่เหนือ navbar/footer */
+  z-index: 1030;
 }
 
 .app-sidebar-inner {
@@ -74,7 +72,7 @@ body.app-body {
   gap: 1.2rem;
 }
 
-/* brand link (clickable) */
+/* clickable brand at the top of sidebar */
 .app-sidebar-brand-link {
   display: block;
   text-decoration: none;
@@ -85,7 +83,7 @@ body.app-body {
   text-decoration: none;
 }
 
-/* brand pill */
+/* brand “pill” card */
 .app-sidebar-brand {
   display: flex;
   align-items: center;
@@ -128,8 +126,7 @@ body.app-body {
   color: var(--app-text-muted);
 }
 
-/* section title */
-
+/* section titles inside sidebar */
 .app-sidebar-section {
   margin-top: 0.5rem;
 }
@@ -142,8 +139,7 @@ body.app-body {
   margin: 0.75rem 0 0.35rem;
 }
 
-/* nav list */
-
+/* navigation links inside sidebar */
 .app-sidebar-nav {
   list-style: none;
   padding-left: 0;
@@ -171,7 +167,7 @@ body.app-body {
   justify-content: center;
   width: 28px;
   margin-right: 0.6rem;
-  font-size: 1.0rem;
+  font-size: 1rem;
   color: var(--app-text-muted);
 }
 
@@ -192,19 +188,25 @@ body.app-body {
   color: var(--app-accent);
 }
 
-/* ========== NAVBAR (TOP OF MAIN AREA) ========== */
+/* ==================== RIGHT SIDE: NAVBAR + CONTENT + FOOTER ==================== */
 
+/* right column that sits next to the fixed sidebar */
+.app-main {
+  margin-left: var(--app-sidebar-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--app-bg-main);
+}
+
+/* top nav bar */
 .app-navbar {
-  position: fixed;
-  top: 0;
-  left: var(--app-sidebar-width);        /* ไม่ทับ sidebar */
-  right: 0;
   height: var(--app-navbar-height);
   background-color: var(--app-bg-navbar);
   color: var(--app-text-main);
   display: flex;
   align-items: center;
-  z-index: 1020;
+  flex-shrink: 0;
 }
 
 .app-navbar-inner {
@@ -214,8 +216,6 @@ body.app-body {
   justify-content: flex-end;
   padding: 0 1rem;
 }
-
-/* เมนูขวา */
 
 .app-navbar-menu {
   display: flex;
@@ -243,41 +243,16 @@ body.app-body {
   text-decoration: none;
 }
 
-/* ========== MAIN AREA (SCROLLABLE) ========== */
-
-.app-main {
-  position: fixed;
-  top: var(--app-navbar-height);
-  left: var(--app-sidebar-width);
-  right: 0;
-  bottom: var(--app-footer-height);
-  overflow-y: auto;
-  background-color: var(--app-bg-main);
-  padding: 1rem 1.5rem 1.5rem;
+/* scrollable main content on the right side */
+.app-content {
+  flex: 1 1 auto;
+  padding: 32px 20px 40px; /* top 32, left/right 20, bottom 40 */
+  max-width: 1040px; /* same width for Top / About / etc. */
+  margin: 0 auto;
 }
 
-.app-page-header {
-  padding: 0 0 0.75rem;
-}
-
-.app-page-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin: 0;
-  color: var(--app-text-main);
-}
-
-.app-page-content {
-  padding: 0;
-}
-
-/* ========== FOOTER (FIXED BOTTOM, MAIN AREA ONLY) ========== */
-
+/* footer fixed to the bottom of the right column */
 .app-footer {
-  position: fixed;
-  left: var(--app-sidebar-width);
-  right: 0;
-  bottom: 0;
   height: var(--app-footer-height);
   display: flex;
   align-items: center;
@@ -285,4 +260,214 @@ body.app-body {
   background-color: var(--app-bg-footer);
   color: var(--app-text-muted);
   font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* simple centered container used on pages like About */
+.page-content {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ==================== HOME PAGE (TOP) ==================== */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.home-hero {
+  margin-bottom: 8px;
+}
+
+.home-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.home-lead {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #d1d5db;
+  max-width: 720px;
+}
+
+.home-lead-sub {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+/* “Site overview”, “Quick access”, etc. */
+.home-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* list of long pill rows */
+.home-row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* base pill row (overview + quick access) */
+.home-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 0 0, #111827, #020617);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  color: #e5e7eb;
+}
+
+/* clickable pill row (quick access) */
+.home-row-link {
+  text-decoration: none;
+  color: inherit;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.1s ease;
+}
+
+.home-row-link:hover {
+  background: radial-gradient(circle at 0 0, #1f2937, #020617);
+  border-color: rgba(56, 189, 248, 0.45);
+  transform: translateY(-1px);
+}
+
+/* left side: label + description */
+.home-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.home-row-label {
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.home-row-meta {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+/* right side: count or arrow */
+.home-row-stat {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.home-row-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+.home-row-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+/* bullet list “What can you do here?” */
+.home-bullet-list {
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.home-bullet-list li + li {
+  margin-top: 4px;
+}
+
+/* ========== ABOUT PAGE ========== */
+.about-page {
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* top area: title + taglines */
+.about-hero {
+  text-align: center;
+}
+
+.about-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.about-tagline {
+  margin-bottom: 18px;
+}
+
+.about-tagline-en {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.about-tagline-ja {
+  font-size: 1rem;
+  color: #d1d5db;
+}
+
+/* body sections */
+.about-body {
+  font-size: 0.96rem;
+  line-height: 1.7;
+}
+
+.about-section {
+  margin-top: 20px;
+}
+
+.about-section-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.about-text {
+  margin-bottom: 8px;
+}
+
+.about-list {
+  padding-left: 1.2rem;
+  margin-top: 4px;
+}
+
+.about-list li + li {
+  margin-top: 3px;
 }

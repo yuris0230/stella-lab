@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "Stella Lab" %></title>
+    <title>Stella Lab</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-    <!-- Font Awesome icons (for sidebar icons) -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer" />
   </head>
 
   <body class="app-body">
-    <!-- Top navbar -->
-    <%= render 'shared/navbar' %>
-
-    <!-- App shell: sidebar + main content -->
     <div class="app-shell">
+      <!-- Left side: fixed sidebar -->
       <%= render 'shared/sidebar' %>
 
-      <!-- Main area -->
-      <main class="app-main">
-        <!-- Page header (ใช้ content_for :page_title ถ้ามี) -->
-        <header class="app-page-header">
-          <div class="app-page-header-inner">
-            <h1 class="app-page-title">
-              <%= content_for?(:page_title) ? yield(:page_title) : "Stella Lab" %>
-            </h1>
-          </div>
-        </header>
+      <!-- Right side: header + main content + footer -->
+      <div class="app-main">
+        <%= render 'shared/navbar' %>
 
-        <!-- Page content -->
-        <section class="app-page-content">
+        <main class="app-content">
+          <% if notice.present? %>
+            <p class="flash flash-notice"><%= notice %></p>
+          <% end %>
+          <% if alert.present? %>
+            <p class="flash flash-alert"><%= alert %></p>
+          <% end %>
+
           <%= yield %>
-        </section>
-      </main>
-    </div>
+        </main>
 
-    <!-- Sticky footer -->
-    <%= render 'shared/footer' %>
+        <%= render 'shared/footer' %>
+      </div>
+    </div>
   </body>
 </html>
