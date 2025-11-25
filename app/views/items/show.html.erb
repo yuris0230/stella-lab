@@ -1,0 +1,42 @@
+<div class="page-content">
+  <div class="home-page">
+    <!-- Header / basic info -->
+    <section class="home-hero">
+      <h1 class="home-title"><%= @item.name %></h1>
+
+      <p class="home-lead">
+        Detailed information about this item. In the future this page can
+        include stats, passive effects, and recommended users.
+      </p>
+
+      <p class="home-lead-sub">
+        <% if @item.item_type.present? %>
+          Type: <strong><%= @item.item_type %></strong>
+        <% end %>
+        <% if @item.rarity.present? %>
+          &nbsp;|&nbsp;
+          Rarity: <strong><%= @item.rarity %></strong>
+        <% end %>
+      </p>
+    </section>
+
+    <!-- Summary / description -->
+    <section class="home-section">
+      <h2 class="home-section-title">Overview</h2>
+      <div class="app-section-card">
+        <% if @item.summary.present? %>
+          <p style="margin-bottom: 0;"><%= simple_format(@item.summary) %></p>
+        <% else %>
+          <p style="margin-bottom: 0;">
+            No detailed description has been added yet.
+          </p>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Back link -->
+    <section class="home-section">
+      <%= link_to '← Back to Items list', items_path, class: 'home-row home-row-link' %>
+    </section>
+  </div>
+</div>

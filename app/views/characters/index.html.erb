@@ -1,0 +1,56 @@
+<div class="page-content">
+  <div class="home-page">
+    <!-- Page header -->
+    <section class="home-hero">
+      <h1 class="home-title">Characters</h1>
+      <p class="home-lead">
+        Browse all characters available in Stella Lab. In future updates,
+        you will be able to filter by element, rarity, role and weapon type.
+      </p>
+    </section>
+
+    <!-- Characters list -->
+    <section class="home-section">
+      <h2 class="home-section-title">Character list</h2>
+
+      <% if @characters.any? %>
+        <div class="home-row-list">
+          <% @characters.each do |character| %>
+            <%= link_to character_path(character), class: 'home-row home-row-link' do %>
+              <div class="home-row-body">
+                <div class="home-row-label">
+                  <%= character.name %>
+                  <% if character.released_on.present? %>
+                    <span style="font-size: 0.8rem; color: #9ca3af; margin-left: 8px;">
+                      (<%= character.released_on %>)
+                    </span>
+                  <% end %>
+                </div>
+                <div class="home-row-meta">
+                  <!-- Simple meta line: rarity / element / job -->
+                  <span><strong>Rarity:</strong> <%= character.rarity %></span>
+                  &nbsp;|&nbsp;
+                  <span><strong>Element:</strong> <%= character.element %></span>
+                  &nbsp;|&nbsp;
+                  <span><strong>Role:</strong> <%= character.job %></span>
+                </div>
+              </div>
+              <div class="home-row-stat">
+                <span class="home-row-arrow">›</span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Pagination -->
+        <div style="margin-top: 16px;">
+          <%= paginate @characters %>
+        </div>
+      <% else %>
+        <p class="home-lead-sub">
+          No characters have been registered yet.
+        </p>
+      <% end %>
+    </section>
+  </div>
+</div>
