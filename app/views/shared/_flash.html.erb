@@ -1,0 +1,20 @@
+<div class="container-fluid mt-2">
+  <% flash.each do |type, message| %>
+    <% next if message.blank? %>
+
+    <!-- Map Rails flash types to Bootstrap alert types -->
+    <% bootstrap_type =
+         case type.to_sym
+         when :notice then 'success'
+         when :alert  then 'danger'
+         else 'info'
+         end %>
+
+    <div class="alert alert-<%= bootstrap_type %> alert-dismissible fade show" role="alert">
+      <%= message %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <% end %>
+</div>

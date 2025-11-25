@@ -1,0 +1,79 @@
+<!-- Fixed left sidebar -->
+<aside class="app-sidebar">
+  <div class="app-sidebar-inner">
+
+    <!-- Brand block -->
+    <%= link_to root_path, class: "app-sidebar-brand-link" do %>
+      <div class="app-sidebar-brand">
+        <div class="app-sidebar-avatar">
+          <span>S</span>
+        </div>
+        <div class="app-sidebar-brand-text">
+          <div class="app-sidebar-brand-name">
+            Stella Lab
+          </div>
+          <div class="app-sidebar-brand-sub">
+            Game Data & Community
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Browse section (キャラクター / アイテム / 最強ランキング / ガイド / About) -->
+    <div class="app-sidebar-section">
+      <p class="app-sidebar-title">Browse</p>
+      <ul class="app-sidebar-nav">
+        <li class="nav-item">
+          <%= link_to characters_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-users"></i></span>
+            <span class="app-sidebar-label">Characters</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to items_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-gem"></i></span>
+            <span class="app-sidebar-label">Items</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to tier_lists_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-signal"></i></span>
+            <span class="app-sidebar-label">Tier Lists</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to guides_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-book-open"></i></span>
+            <span class="app-sidebar-label">Guides</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to about_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-info-circle"></i></span>
+            <span class="app-sidebar-label">About</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Community section (Topics / Latest Posts) -->
+    <div class="app-sidebar-section">
+      <p class="app-sidebar-title">Community</p>
+      <ul class="app-sidebar-nav">
+        <li class="nav-item">
+          <%= link_to topics_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-comments"></i></span>
+            <span class="app-sidebar-label">Topics</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to posts_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-clock"></i></span>
+            <span class="app-sidebar-label">Latest Posts</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</aside>

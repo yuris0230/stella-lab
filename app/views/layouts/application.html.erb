@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StellaLab</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title><%= content_for?(:title) ? yield(:title) : "Stella Lab" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <!-- Font Awesome icons (for sidebar icons) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
   </head>
 
-  <body>
-    <%= render "layouts/header" %>
+  <body class="app-body">
+    <!-- Top navbar -->
+    <%= render 'shared/navbar' %>
 
-    <% if notice.present? %>
-      <p><%= notice %></p>
-    <% end %>
+    <!-- App shell: sidebar + main content -->
+    <div class="app-shell">
+      <%= render 'shared/sidebar' %>
 
-    <% if alert.present? %>
-      <p><%= alert %></p>
-    <% end %>
+      <!-- Main area -->
+      <main class="app-main">
+        <!-- Page header (ใช้ content_for :page_title ถ้ามี) -->
+        <header class="app-page-header">
+          <div class="app-page-header-inner">
+            <h1 class="app-page-title">
+              <%= content_for?(:page_title) ? yield(:page_title) : "Stella Lab" %>
+            </h1>
+          </div>
+        </header>
 
-    <%= yield %>
+        <!-- Page content -->
+        <section class="app-page-content">
+          <%= yield %>
+        </section>
+      </main>
+    </div>
+
+    <!-- Sticky footer -->
+    <%= render 'shared/footer' %>
   </body>
 </html>
