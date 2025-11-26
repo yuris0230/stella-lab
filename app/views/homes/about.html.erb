@@ -12,41 +12,19 @@
     </div>
   </section>
 
+  <!-- Main body (editable from admin) -->
   <section class="about-body">
-    <div class="about-section">
+    <% if @about_body.present? %>
+      <%= simple_format(@about_body, class: "about-text") %>
+    <% else %>
       <p class="about-text">
         Stella Lab is a personal portfolio project and fan-made database site.
         It is designed as a place to collect game data, publish guides, and
         provide a small community space for discussions.
       </p>
-    </div>
-
-    <div class="about-section">
-      <h2 class="about-section-title">Main features</h2>
-      <ul class="about-list">
-        <li>Character and item catalog with filters and detail pages.</li>
-        <li>Tier lists that summarize the current meta.</li>
-        <li>Guides written by admins to help players improve.</li>
-        <li>Community topics and posts for communication between users.</li>
-      </ul>
-    </div>
-
-    <div class="about-section">
-      <h2 class="about-section-title">For visitors</h2>
       <p class="about-text">
-        You can freely browse all public content without logging in. Creating
-        an account allows you to join the community by posting topics and
-        comments (planned features).
+        You can customize this description from the admin panel.
       </p>
-    </div>
-
-    <div class="about-section">
-      <h2 class="about-section-title">Note</h2>
-      <p class="about-text">
-        This site is not an official product of any game company. It is a
-        learning project created to practice web development, database design,
-        and deployment on AWS.
-      </p>
-    </div>
+    <% end %>
   </section>
 </div>

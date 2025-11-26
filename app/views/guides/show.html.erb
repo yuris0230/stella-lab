@@ -1,0 +1,37 @@
+<div class="page-content">
+  <div class="home-page">
+    <!-- Header -->
+    <section class="home-hero">
+      <h1 class="home-title"><%= @guide.title %></h1>
+
+      <% if @guide.category.present? %>
+        <p class="home-lead-sub">
+          Category: <strong><%= @guide.category %></strong>
+        </p>
+      <% end %>
+
+      <p class="home-lead-sub">
+        Last updated
+        <%= l(@guide.updated_at.to_date, format: :long) rescue @guide.updated_at.to_date %>
+      </p>
+    </section>
+
+    <!-- Body -->
+    <section class="home-section">
+      <div class="app-section-card">
+        <% if @guide.body.present? %>
+          <%= simple_format(@guide.body) %>
+        <% else %>
+          <p class="page-muted">
+            No detailed content has been written for this guide yet.
+          </p>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Back link -->
+    <section class="home-section">
+      <%= link_to "← Back to Guides", guides_path, class: "home-row home-row-link" %>
+    </section>
+  </div>
+</div>

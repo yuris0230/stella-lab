@@ -16,6 +16,21 @@
     </p>
   </section>
 
+  <!-- Game information: editable from admin -->
+  <section class="home-section">
+    <h2 class="home-section-title"><%= @game_info_title %></h2>
+
+    <div class="app-section-card">
+      <% if @game_info_body.present? %>
+        <%= simple_format(@game_info_body) %>
+      <% else %>
+        <p class="page-muted">
+          Game information will be added soon from the admin panel.
+        </p>
+      <% end %>
+    </div>
+  </section>
+
   <!-- Site overview: banner style with number on the right -->
   <section class="home-section">
     <h2 class="home-section-title">Site overview</h2>
@@ -27,7 +42,7 @@
           <div class="home-row-meta">Characters & units in the game.</div>
         </div>
         <div class="home-row-stat">
-          <span class="home-row-count"><%= @character_count %></span>
+          <span class="home-row-count"><%= @characters_count %></span>
         </div>
       </div>
 
@@ -37,7 +52,7 @@
           <div class="home-row-meta">Weapons, gear & other items.</div>
         </div>
         <div class="home-row-stat">
-          <span class="home-row-count"><%= @item_count %></span>
+          <span class="home-row-count"><%= @items_count %></span>
         </div>
       </div>
 
@@ -47,7 +62,7 @@
           <div class="home-row-meta">Articles written by admins.</div>
         </div>
         <div class="home-row-stat">
-          <span class="home-row-count"><%= @guide_count %></span>
+          <span class="home-row-count"><%= @guides_count %></span>
         </div>
       </div>
 
@@ -57,13 +72,13 @@
           <div class="home-row-meta">Community topics & discussions.</div>
         </div>
         <div class="home-row-stat">
-          <span class="home-row-count"><%= @topic_count %></span>
+          <span class="home-row-count"><%= @topics_count %></span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Quick access: banner style + clickable (เหมือนกล่องรายการ event) -->
+  <!-- Quick access: banner style + clickable -->
   <section class="home-section">
     <h2 class="home-section-title">Quick access</h2>
 

@@ -1,0 +1,38 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Guides</h1>
+    <p class="app-page-subtitle">
+      Manage guides shown on the public Guides page.
+    </p>
+  </header>
+
+  <div class="page-header-actions">
+    <%= link_to "New guide", new_admin_guide_path, class: "app-button-primary" %>
+  </div>
+
+  <% if @guides.any? %>
+    <ul class="simple-list">
+      <% @guides.each do |guide| %>
+        <li class="simple-list-item">
+          <div>
+            <%= link_to guide.title, admin_guide_path(guide), class: "simple-list-link" %>
+            <div class="simple-list-meta">
+              Category: <%= guide.category %>
+              ·
+              <% if guide.is_published? %>
+                <span>Published</span>
+              <% else %>
+                <span>Draft</span>
+              <% end %>
+            </div>
+          </div>
+          <div class="simple-list-meta">
+            <%= l(guide.updated_at, format: :short) rescue guide.updated_at %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="page-muted">No guides have been created yet.</p>
+  <% end %>
+</div>
