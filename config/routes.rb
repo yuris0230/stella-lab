@@ -11,17 +11,19 @@ Rails.application.routes.draw do
   resources :characters, only: [:index, :show] do
     resources :topics, only: [:new, :create]
   end
+
   resources :items, only: [:index, :show] do
     resources :topics, only: [:new, :create]
   end
-  resources :guides, only: [:index, :show]
+
+  resources :guides,     only: [:index, :show]
   resources :tier_lists, only: [:index, :show]
 
   # Community content
   resources :topics, only: [:index, :show] do
     resources :posts, only: [:create]
   end
-  get 'latest_posts', to: 'posts#latest', as: :latest_posts
+  get "latest_posts", to: "posts#latest", as: :latest_posts
 
   # Member directory (user side)
   get "members",     to: "members#index", as: :members
@@ -38,8 +40,15 @@ Rails.application.routes.draw do
   # ====== ADMIN ======
   namespace :admin do
     root to: "dashboard#index"
-    
+
+    # Home / About content editors
+    resource :home,  only: [:edit, :update], controller: "home"
+    resource :about, only: [:edit, :update], controller: "about"
+
     # Admin member management
     resources :members, only: [:index, :show, :edit, :update]
+
+    # Guides management
+    resources :guides
   end
 end

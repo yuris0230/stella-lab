@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_26_174818) do
+ActiveRecord::Schema.define(version: 2025_11_26_212032) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -113,6 +113,15 @@ ActiveRecord::Schema.define(version: 2025_11_26_174818) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["topic_id"], name: "index_posts_on_topic_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "site_texts", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key"], name: "index_site_texts_on_key", unique: true
   end
 
   create_table "taggings", force: :cascade do |t|

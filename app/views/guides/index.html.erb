@@ -1,0 +1,33 @@
+<div class="page-content">
+  <div class="home-page">
+    <!-- Header -->
+    <section class="home-hero">
+      <h1 class="home-title">Guides</h1>
+      <p class="home-lead">
+        Guides written by admins. Strategy, tips, and other articles about the game.
+      </p>
+    </section>
+
+    <!-- Guides list -->
+    <section class="home-section">
+      <% if @guides.present? %>
+        <ul class="simple-list">
+          <% @guides.each do |guide| %>
+            <li class="simple-list-item">
+              <%= link_to guide.title,
+                          guide_path(guide.slug),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                <%= l(guide.updated_at.to_date, format: :long) rescue guide.updated_at.to_date %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="page-muted">
+          No guides have been published yet.
+        </p>
+      <% end %>
+    </section>
+  </div>
+</div>

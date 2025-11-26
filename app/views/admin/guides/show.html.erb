@@ -1,0 +1,31 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title"><%= @guide.title %></h1>
+    <p class="app-page-subtitle">
+      Category: <%= @guide.category %> ·
+      <% if @guide.is_published? %>
+        Published
+      <% else %>
+        Draft (not visible on public Guides page)
+      <% end %>
+    </p>
+  </header>
+
+  <section class="home-section">
+    <div class="app-section-card">
+      <%= simple_format(@guide.body) %>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="form-actions">
+      <%= link_to "Back", admin_guides_path, class: "app-button-secondary" %>
+      <%= link_to "Edit", edit_admin_guide_path(@guide), class: "app-button-primary" %>
+      <%= link_to "Delete",
+                  admin_guide_path(@guide),
+                  method: :delete,
+                  data: { confirm: "Are you sure you want to delete this guide?" },
+                  class: "app-button-secondary" %>
+    </div>
+  </section>
+</div>
