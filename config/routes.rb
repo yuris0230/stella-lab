@@ -38,5 +38,8 @@ Rails.application.routes.draw do
   # ====== ADMIN ======
   namespace :admin do
     root to: "dashboard#index"
+    
+    # Admin member management
+    resources :members, only: [:index, :show, :edit, :update]
   end
 end
