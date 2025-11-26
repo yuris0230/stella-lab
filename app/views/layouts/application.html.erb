@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StellaLab</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Stella Lab</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,17 +9,28 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= render "layouts/header" %>
+  <body class="app-body">
+    <div class="app-shell">
+      <!-- Left side: fixed sidebar -->
+      <%= render 'shared/sidebar' %>
 
-    <% if notice.present? %>
-      <p><%= notice %></p>
-    <% end %>
+      <!-- Right side: header + main content + footer -->
+      <div class="app-main">
+        <%= render 'shared/navbar' %>
 
-    <% if alert.present? %>
-      <p><%= alert %></p>
-    <% end %>
+        <main class="app-content">
+          <% if notice.present? %>
+            <p class="flash flash-notice"><%= notice %></p>
+          <% end %>
+          <% if alert.present? %>
+            <p class="flash flash-alert"><%= alert %></p>
+          <% end %>
 
-    <%= yield %>
+          <%= yield %>
+        </main>
+
+        <%= render 'shared/footer' %>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,29 +1,95 @@
-<h1>マイページ</h1>
+<div class="page-content">
+  <% display_name = @profile&.display_name.presence || @user.email %>
 
-<h2>ユーザー情報</h2>
-<p>メールアドレス: <%= @user.email %></p>
+  <!-- Page header -->
+  <header class="app-page-header">
+    <h1 class="app-page-title">My Page</h1>
+    <p class="app-page-subtitle">
+      Manage your profile and see your recent activity on Stella Lab.
+    </p>
+  </header>
 
-<% if @user.respond_to?(:name) && @user.name.present? %>
-  <p>名前: <%= @user.name %></p>
-<% end %>
+  <!-- Profile summary card -->
+  <section class="home-section">
+    <div class="home-row">
+      <div class="home-row-body">
+        <div class="home-row-label">
+          <%= (@profile&.display_name.presence || @user.email) %>
+        </div>
+        <div class="home-row-meta">
+          Joined <%= l(@user.created_at.to_date, format: :long) rescue @user.created_at.to_date %>
+        </div>
+      </div>
+      <div class="home-row-stat">
+        <%= link_to "Edit", edit_profile_path, class: "app-pill-button" %>
+      </div>
+    </div>
+  </section>
 
-<% if @user.user_profile.present? %>
-  <p>表示名: <%= @user.user_profile.display_name %></p>
-  <p>自己紹介:</p>
-  <p><%= simple_format(@user.user_profile.bio) %></p>
-<% end %>
+  <!-- Profile details -->
+  <section class="home-section">
+    <h2 class="home-section-title">Profile</h2>
+    <div class="app-section-card">
+      <p>
+        <strong>Display name:</strong>
+        <%= @profile&.display_name.presence || "-" %>
+      </p>
 
-<p><%= link_to "登録情報を編集する", edit_user_registration_path %></p>
+      <hr class="my-3" />
 
-<h2>自分の投稿</h2>
-<% @posts.each do |post| %>
-  <article>
-    <h3><%= link_to post.title, post_path(post) %></h3>
-    <p><%= truncate(post.body, length: 80) %></p>
-  </article>
-<% end %>
+      <% if @profile&.bio.present? %>
+        <p><%= simple_format(@profile.bio) %></p>
+      <% else %>
+        <p class="text-muted mb-0">
+          You have not written a bio yet.
+        </p>
+      <% end %>
+    </div>
+  </section>
 
-<h2>退会</h2>
-<p>アカウントを削除すると、元に戻すことはできません。</p>
-<%= button_to "退会する", users_withdraw_path, method: :delete,
-              data: { confirm: "本当に退会しますか？" } %>
+  <!-- Recent activity -->
+  <section class="home-section">
+    <h2 class="home-section-title">Recent activity</h2>
+
+    <!-- Recent topics -->
+    <div class="app-section-card mb-3">
+      <h3 class="app-section-title">Your topics</h3>
+
+      <% if @recent_topics.any? %>
+        <ul class="list-unstyled mb-0">
+          <% @recent_topics.each do |topic| %>
+            <li class="mb-2">
+              <%= link_to topic.title, topic_path(topic) %>
+              <span class="text-muted small">
+                &nbsp;(<%= l(topic.created_at, format: :short) rescue topic.created_at %>)
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">You have not created any topics yet.</p>
+      <% end %>
+    </div>
+
+    <!-- Recent posts -->
+    <div class="app-section-card">
+      <h3 class="app-section-title">Your posts</h3>
+
+      <% if @recent_posts.any? %>
+        <ul class="list-unstyled mb-0">
+          <% @recent_posts.each do |post| %>
+            <li class="mb-2">
+              <%= link_to truncate(post.body, length: 80),
+                          topic_path(post.topic, anchor: "post-#{post.id}") %>
+              <span class="text-muted small">
+                &nbsp;(<%= l(post.created_at, format: :short) rescue post.created_at %>)
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">You have not posted anything yet.</p>
+      <% end %>
+    </div>
+  </section>
+</div>

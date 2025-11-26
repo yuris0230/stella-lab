@@ -1,0 +1,57 @@
+<div class="page-content">
+  <div class="home-page">
+    <!-- Header / basic info -->
+    <section class="home-hero">
+      <h1 class="home-title"><%= @character.name %></h1>
+
+      <p class="home-lead">
+        Detailed information about this character. In the future this page
+        can include skill descriptions, recommended builds, and synergy notes.
+      </p>
+
+      <p class="home-lead-sub">
+        Rarity: <strong><%= @character.rarity %></strong>
+        &nbsp;|&nbsp;
+        Element: <strong><%= @character.element %></strong>
+        &nbsp;|&nbsp;
+        Weapon type: <strong><%= @character.weapon_type %></strong>
+        &nbsp;|&nbsp;
+        Role: <strong><%= @character.job %></strong>
+      </p>
+
+      <!-- Start topic button -->
+      <div class="d-flex justify-content-end mt-3">
+        <% if user_signed_in? %>
+          <%= link_to "Start topic",
+                      new_character_topic_path(@character),
+                      class: "btn btn-outline-light btn-sm" %>
+        <% else %>
+          <%= link_to "Log in to start a topic",
+                      new_user_session_path,
+                      class: "btn btn-outline-light btn-sm" %>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Summary / description -->
+    <section class="home-section">
+      <h2 class="home-section-title">Overview</h2>
+      <div class="app-section-card">
+        <% if @character.summary.present? %>
+          <p style="margin-bottom: 0;"><%= simple_format(@character.summary) %></p>
+        <% else %>
+          <p style="margin-bottom: 0;">
+            No detailed description has been added yet.
+          </p>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Back link -->
+    <section class="home-section">
+      <%= link_to "← Back to Characters list",
+                  characters_path,
+                  class: "home-row home-row-link" %>
+    </section>
+  </div>
+</div>

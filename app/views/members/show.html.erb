@@ -1,0 +1,77 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">
+      <%= @profile&.display_name.presence || @member.email %>
+    </h1>
+    <p class="app-page-subtitle">
+      Member since
+      <%= l(@member.created_at.to_date, format: :long) rescue @member.created_at.to_date %>.
+      <%= @topics_count %> topics · <%= @posts_count %> posts
+    </p>
+  </header>
+
+  <!-- Profile card -->
+  <section class="home-section">
+    <h2 class="home-section-title">Profile</h2>
+
+    <div class="app-section-card">
+      <p>
+        <strong>Display name:</strong>
+        <%= @profile&.display_name.presence || "-" %>
+      </p>
+
+      <hr class="my-3" />
+
+      <% if @profile&.bio.present? %>
+        <p><%= simple_format(@profile.bio) %></p>
+      <% else %>
+        <p class="text-muted mb-0">This member has not written a bio yet.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Recent topics -->
+  <section class="home-section">
+    <h2 class="home-section-title">Recent topics</h2>
+
+    <div class="app-section-card">
+      <% if @recent_topics.any? %>
+        <ul class="list-unstyled mb-0">
+          <% @recent_topics.each do |topic| %>
+            <li class="mb-2">
+              <%= link_to topic.title, topic_path(topic) %>
+              <span class="text-muted small">
+                &nbsp;(<%= l(topic.created_at, format: :short) rescue topic.created_at %>)
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">No topics created yet.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Recent posts -->
+  <section class="home-section">
+    <h2 class="home-section-title">Recent posts</h2>
+
+    <div class="app-section-card">
+      <% if @recent_posts.any? %>
+        <ul class="list-unstyled mb-0">
+          <% @recent_posts.each do |post| %>
+            <li class="mb-2">
+              <%= link_to truncate(post.body, length: 80),
+                          topic_path(post.topic, anchor: "post-#{post.id}") %>
+              <span class="text-muted small">
+                &nbsp;(<%= l(post.created_at, format: :short) rescue post.created_at %>)
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">No posts created yet.</p>
+      <% end %>
+    </div>
+  </section>
+</div>

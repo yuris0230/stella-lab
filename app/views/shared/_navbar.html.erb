@@ -1,0 +1,49 @@
+<nav class="navbar app-navbar">
+  <div class="container-fluid app-navbar-inner">
+
+    <ul class="navbar-nav app-navbar-menu">
+      <!-- Main (トップページ) -->
+      <li class="nav-item">
+        <%= link_to "Main", root_path, class: "app-navbar-link" %>
+      </li>
+
+      <!-- Login / My Page + Logout -->
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <%= link_to "My Page", my_page_path, class: "app-navbar-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Logout",
+                      destroy_user_session_path,
+                      method: :delete,
+                      class: "app-navbar-link" %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "Login",
+                      new_user_session_path,
+                      class: "app-navbar-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Sign up",
+                      new_user_registration_path,
+                      class: "app-navbar-link" %>
+        </li>
+      <% end %>
+
+      <!-- Join Discord (外部リンク) -->
+      <li class="nav-item">
+        <%= link_to "Join Discord",
+                    "https://discord.com",
+                    class: "app-navbar-link",
+                    target: "_blank",
+                    rel: "noopener" %>
+      </li>
+
+      <!-- Member List -->
+      <li class="nav-item">
+        <%= link_to "Member List", members_path, class: "app-navbar-link" %>
+      </li>
+    </ul>
+  </div>
+</nav>

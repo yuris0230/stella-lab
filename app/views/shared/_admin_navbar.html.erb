@@ -1,0 +1,38 @@
+<nav class="navbar app-navbar">
+  <div class="container-fluid app-navbar-inner">
+    <ul class="navbar-nav app-navbar-menu">
+      <!-- Admin home -->
+      <li class="nav-item">
+        <%= link_to "Admin Home", admin_root_path, class: "app-navbar-link" %>
+      </li>
+
+      <!-- กลับไปหน้า public -->
+      <li class="nav-item">
+        <%= link_to "Back to Site", root_path, class: "app-navbar-link" %>
+      </li>
+
+      <% if admin_signed_in? %>
+        <!-- แสดงอีเมล admin -->
+        <li class="nav-item">
+          <span class="app-navbar-link" style="opacity: 0.75;">
+            <%= current_admin.email %>
+          </span>
+        </li>
+        <!-- Logout admin -->
+        <li class="nav-item">
+          <%= link_to "Logout",
+                      destroy_admin_session_path,
+                      method: :delete,
+                      class: "app-navbar-link" %>
+        </li>
+      <% else %>
+        <!-- กรณียังไม่ล็อกอิน (เวลาโดนเด้งจาก /admin) -->
+        <li class="nav-item">
+          <%= link_to "Admin Login",
+                      new_admin_session_path,
+                      class: "app-navbar-link" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

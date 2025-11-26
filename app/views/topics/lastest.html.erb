@@ -1,0 +1,27 @@
+<div class="page-content">
+  <header class="page-header">
+    <h1 class="page-title">Latest posts</h1>
+    <p class="page-lead">
+      Recent replies across all topics.
+    </p>
+  </header>
+
+  <% if @posts.any? %>
+    <ul class="simple-list">
+      <% @posts.each do |post| %>
+        <li class="simple-list-item">
+          <div>
+            <%= link_to post.topic.title, topic_path(post.topic),
+                        class: 'simple-list-link' %><br>
+            <span class="simple-list-meta">
+              by <%= post.user.display_name %> ·
+              <%= post.created_at.strftime('%Y-%m-%d %H:%M') %>
+            </span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="page-muted">No posts yet.</p>
+  <% end %>
+</div>

@@ -1,0 +1,82 @@
+<div class="page-content">
+  <!-- Page header for Characters list -->
+  <header class="page-header">
+    <h1 class="page-title">Characters</h1>
+    <p class="page-lead">
+      Browse all characters in the game. You can filter by element and rarity.
+    </p>
+  </header>
+
+  <!-- Filter bar for basic search & filters -->
+  <%= form_with url: characters_path, method: :get, local: true, html: { class: 'filter-bar' } do %>
+    <!-- Text search -->
+    <div class="filter-search">
+      <label class="filter-label" for="q">Search</label>
+      <%= text_field_tag :q, @q, id: 'q', class: 'filter-search-input', placeholder: 'Search characters…' %>
+    </div>
+
+    <!-- Rarity checkboxes (SR / SSR) -->
+    <div class="filter-group">
+      <div class="filter-group-label">Rarity</div>
+      <div class="filter-pill-group">
+        <% rarity_options = { 'SR' => Character.rarities[:sr], 'SSR' => Character.rarities[:ssr] } %>
+        <% rarity_options.each do |label, value| %>
+          <% id = "rarity_#{label.downcase}" %>
+          <%= check_box_tag 'rarities[]',
+                            value,
+                            Array(params[:rarities]).include?(value.to_s),
+                            id: id,
+                            class: 'filter-pill-input' %>
+          <label class="filter-pill" for="<%= id %>"><%= label %></label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Element checkboxes (simple emoji icons for now) -->
+    <div class="filter-group">
+      <div class="filter-group-label">Element</div>
+      <div class="filter-pill-group">
+        <% element_options = {
+          'Fire' => Character.elements[:fire],
+          'Water' => Character.elements[:water],
+          'Wind' => Character.elements[:wind],
+          'Earth' => Character.elements[:earth],
+          'Light' => Character.elements[:light],
+          'Dark' => Character.elements[:dark]
+        } %>
+
+        <% element_options.each do |icon, value| %>
+          <% id = "element_#{value}" %>
+          <%= check_box_tag 'elements[]', value,
+                            Array(params[:elements]).include?(value.to_s),
+                            id: id, class: 'filter-pill-input' %>
+          <label class="filter-pill" for="<%= id %>"><%= icon %></label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Submit + Reset buttons -->
+    <div class="filter-actions">
+      <%= submit_tag 'Apply', class: 'filter-button-primary' %>
+      <%= link_to 'Reset', characters_path, class: 'filter-button-reset' %>
+    </div>
+  <% end %>
+
+  <!-- Result list (basic for now) -->
+  <section class="page-section">
+    <% if @characters.any? %>
+      <ul class="simple-list">
+        <% @characters.each do |character| %>
+          <li class="simple-list-item">
+            <%= link_to character.name, character_path(character), class: 'simple-list-link' %>
+            <span class="simple-list-meta">
+              <%= character.rarity.upcase %> · <%= character.element.capitalize %> · <%= character.job.capitalize %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="page-muted">No characters match your filters yet.</p>
+    <% end %>
+  </section>
+</div>

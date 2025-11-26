@@ -2,14 +2,23 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @user  = current_user
-    @posts = @user.posts.order(created_at: :desc)
+    @user = current_user
+
+    # Make sure profile exists
+    @profile = @user.user_profile || @user.create_user_profile!
+
+    # Recent activity
+    @recent_topics = @user.topics.order(created_at: :desc).limit(5)
+    @recent_posts  = @user.posts.includes(:topic).order(created_at: :desc).limit(5)
   end
 
   def destroy
-    user = current_user
-    user.destroy
-    reset_session
-    redirect_to new_user_registration_path, notice: "退会が完了しました。ご利用ありがとうございました。"
+    # Soft delete: set is_active = false instead of deleting row
+    if @user = current_user
+      @user.update!(is_active: false) if @user.respond_to?(:is_active)
+      sign_out(@user)
+    end
+
+    redirect_to root_path, notice: "Your account has been deactivated."
   end
 end

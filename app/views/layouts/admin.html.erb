@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+  <title>Stella Lab Admin</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application",
+                          media: "all",
+                          "data-turbolinks-track": "reload" %>
+  <%= javascript_pack_tag "application",
+                          "data-turbolinks-track": "reload" %>
+</head>
+
+  <body class="app-body">
+    <div class="app-shell">
+      <!-- Sidebar admin -->
+      <%= render "shared/admin_sidebar" %>
+
+      <!-- navbar + content + footer -->
+      <div class="app-main">
+        <!-- Navbar admin -->
+        <%= render "shared/admin_navbar" %>
+
+        <main class="app-content">
+          <% if notice.present? %>
+            <p class="page-muted"><%= notice %></p>
+          <% end %>
+          <% if alert.present? %>
+            <p class="page-muted"><%= alert %></p>
+          <% end %>
+
+          <%= yield %>
+        </main>
+
+        <footer class="app-footer">
+          &copy; <%= Time.current.year %> Stella Lab Admin.
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
