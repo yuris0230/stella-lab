@@ -1,39 +1,33 @@
 <div class="page-content">
-  <header class="page-header">
-    <h1 class="page-title">New topic</h1>
-    <p class="page-lead">
-      Start a new discussion. The first post will be created together with the topic.
+  <header class="app-page-header">
+    <h1 class="app-page-title">
+      New topic for
+      <%= @topicable.respond_to?(:name) ? @topicable.name : @topicable.try(:title) %>
+    </h1>
+    <p class="app-page-subtitle">
+      Start a discussion related to this <%= @topicable.class.name.downcase %>.
     </p>
   </header>
 
-  <% if @topic.errors.any? %>
-    <div class="form-errors">
-      <p><strong>There were some problems:</strong></p>
-      <ul>
-        <% @topic.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <section class="home-section">
+    <div class="app-section-card">
+      <%= form_with(model: [@topicable, @topic], local: true) do |f| %>
+        <div class="mb-3">
+          <%= f.label :title, "Title", class: "form-label" %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
 
-  <%= form_with model: @topic, url: topics_path, local: true, html: { class: 'topic-form' } do |f| %>
-    <div class="form-group">
-      <%= f.label :title, 'Title', class: 'form-label' %>
-      <%= f.text_field :title, class: 'form-input',
-                       placeholder: 'What do you want to discuss?' %>
-    </div>
+        <div class="mb-3">
+          <%= f.label :first_post_body, "First post", class: "form-label" %>
+          <%= f.text_area :first_post_body,
+                          rows: 6,
+                          class: "form-control" %>
+        </div>
 
-    <div class="form-group">
-      <%= f.label :first_body, 'First post', class: 'form-label' %>
-      <%= text_area_tag 'topic[first_body]', @topic_first_body,
-                        rows: 6, class: 'form-textarea',
-                        placeholder: 'Write the first message for this topic…' %>
+        <div>
+          <%= f.submit "Create topic", class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
-
-    <div class="form-actions">
-      <%= f.submit 'Create topic', class: 'primary-button' %>
-      <%= link_to 'Cancel', topics_path, class: 'secondary-link' %>
-    </div>
-  <% end %>
+  </section>
 </div>

@@ -3,6 +3,8 @@ class Item < ApplicationRecord
   enum rarity: { unknown: 0, sr: 1, ssr: 2 }, _prefix: true
   enum item_type: { weapon: 0, armor: 1, accessory: 2, material: 3 }, _prefix: true
 
+  has_many :topics, as: :topicable, dependent: :destroy
+
   # Only show items that are published
   scope :published, -> { where(is_published: true) }
 

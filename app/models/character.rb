@@ -5,6 +5,8 @@ class Character < ApplicationRecord
   enum weapon_type: { unknown: 0, melee: 1, ranged: 2, magic: 3 }, _prefix: true
   enum job: { unknown: 0, attacker: 1, supporter: 2, defender: 3 }, _prefix: true
 
+  has_many :topics, as: :topicable, dependent: :destroy
+
   # Only show characters that are published
   scope :published, -> { where(is_published: true) }
 
