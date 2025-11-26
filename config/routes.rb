@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   devise_for :users
 
   # Main browsable game data
-  # These will provide characters_path, items_path, guides_path, tier_lists_path
   resources :characters, only: [:index, :show] do
     resources :topics, only: [:new, :create]
   end
@@ -19,28 +18,25 @@ Rails.application.routes.draw do
   resources :tier_lists, only: [:index, :show]
 
   # Community content
-  # topics_path, topic_path
   resources :topics, only: [:index, :show] do
     resources :posts, only: [:create]
   end
   get 'latest_posts', to: 'posts#latest', as: :latest_posts
 
   # Member directory (user side)
-  # members_path, member_path
   get "members",     to: "members#index", as: :members
   get "members/:id", to: "members#show",  as: :member
 
-  # My Page + unsubscribe (user account pages)
-  # my_page_path already used in navbar/sidebar
+  # My Page + profile + unsubscribe
   get "my_page", to: "users#show"
-  
-  # Edit own profile (display name, bio, etc.)
-  # /profile/edit -> user_profiles#edit
-  # PATCH /profile  -> user_profiles#update
   resource :profile, only: [:edit, :update], controller: "user_profiles"
   delete "users/withdraw", to: "users#destroy", as: :users_withdraw
 
-  # Favorites / likes index (for sidebar "Favorites")
-  # favorites_path
+  # Favorites / likes
   get "favorites", to: "favorites#index", as: :favorites
+
+  # ====== ADMIN ======
+  namespace :admin do
+    root to: "dashboard#index"
+  end
 end

@@ -1,0 +1,61 @@
+<!-- Fixed left sidebar (admin) -->
+<aside class="app-sidebar">
+  <div class="app-sidebar-inner">
+
+    <!-- Brand block -->
+    <%= link_to admin_root_path, class: "app-sidebar-brand-link" do %>
+      <div class="app-sidebar-brand">
+        <div class="app-sidebar-avatar">
+          <span>A</span>
+        </div>
+        <div class="app-sidebar-brand-text">
+          <div class="app-sidebar-brand-name">
+            Stella Lab Admin
+          </div>
+          <div class="app-sidebar-brand-sub">
+            Management Console
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Overview section -->
+    <div class="app-sidebar-section">
+      <p class="app-sidebar-title">Overview</p>
+      <ul class="app-sidebar-nav">
+        <li class="nav-item">
+          <%= link_to admin_root_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-gauge"></i></span>
+            <span class="app-sidebar-label">Dashboard</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Management section (only placeholder) -->
+    <div class="app-sidebar-section">
+      <p class="app-sidebar-title">Management</p>
+      <ul class="app-sidebar-nav">
+        <li class="nav-item">
+          <span class="app-sidebar-link" style="opacity: .6; cursor: default;">
+            <span class="app-sidebar-icon"><i class="fas fa-users"></i></span>
+            <span class="app-sidebar-label">Users (coming soon)</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <span class="app-sidebar-link" style="opacity: .6; cursor: default;">
+            <span class="app-sidebar-icon"><i class="fas fa-chess-knight"></i></span>
+            <span class="app-sidebar-label">Characters (coming soon)</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <span class="app-sidebar-link" style="opacity: .6; cursor: default;">
+            <span class="app-sidebar-icon"><i class="fas fa-comments"></i></span>
+            <span class="app-sidebar-label">Topics (coming soon)</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</aside>

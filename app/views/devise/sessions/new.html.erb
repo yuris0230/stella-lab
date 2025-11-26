@@ -1,20 +1,37 @@
+<% page_title =
+     resource_name == :admin ? "Admin Login" : "Log in" %>
+
+<% page_subtitle =
+     if resource_name == :admin
+       "Sign in to the Stella Lab admin dashboard."
+     else
+       "Log in to manage your profile and join the conversation."
+     end %>
+
 <div class="page-content auth-page">
   <div class="auth-card">
-    <h1 class="auth-title">Log in</h1>
+    <h1 class="auth-title"><%= page_title %></h1>
     <p class="auth-subtitle">
-      Log in to manage your profile and join the conversation.
+      <%= page_subtitle %>
     </p>
 
-    <%= form_with scope: :user, url: user_session_path, local: true do |f| %>
+    <%= form_with model: resource,
+                  as: resource_name,
+                  url: session_path(resource_name),
+                  local: true do |f| %>
+
       <div class="app-form-group">
         <%= f.label :email, "Email", class: "app-form-label" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+        <%= f.email_field :email,
+                          autofocus: true,
+                          autocomplete: "email",
                           class: "app-form-control" %>
       </div>
 
       <div class="app-form-group">
         <%= f.label :password, "Password", class: "app-form-label" %>
-        <%= f.password_field :password, autocomplete: "current-password",
+        <%= f.password_field :password,
+                             autocomplete: "current-password",
                              class: "app-form-control" %>
       </div>
 
@@ -28,13 +45,25 @@
       <% end %>
 
       <div class="form-actions">
-        <%= f.submit "Log in", class: "app-button-primary" %>
-        <%= link_to "Sign up", new_user_registration_path, class: "app-button-secondary" %>
+        <%= f.submit page_title, class: "app-button-primary" %>
+
+        <%# Show "Sign up" only for normal users (not admins) %>
+        <% if devise_mapping.registerable? && resource_name == :user %>
+          <%= link_to "Sign up",
+                      new_registration_path(resource_name),
+                      class: "app-button-secondary" %>
+        <% end %>
       </div>
 
-      <div class="auth-links">
-        <%= link_to "Forgot your password?", new_user_password_path, class: "app-button-secondary" %>
-      </div>
+      <%# Forgot password (if recoverable) %>
+      <% if devise_mapping.recoverable? %>
+        <div class="auth-links">
+          <%= link_to "Forgot your password?",
+                      new_password_path(resource_name),
+                      class: "app-button-secondary" %>
+        </div>
+      <% end %>
+
     <% end %>
   </div>
 </div>
