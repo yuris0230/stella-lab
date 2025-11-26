@@ -1,0 +1,24 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Admin Dashboard</h1>
+    <p class="app-page-subtitle">
+      Basic control panel for Stella Lab. You can add more management pages later.
+    </p>
+  </header>
+
+  <section class="home-section">
+    <div class="home-row">
+      <div class="home-row-body">
+        <div class="home-row-label">Site overview</div>
+        <div class="home-row-meta">
+          Users: <%= @users_count %> /
+          Topics: <%= @topics_count %> /
+          Posts: <%= @posts_count %>
+        </div>
+      </div>
+      <div class="home-row-stat">
+        <span class="home-row-count">Admin</span>
+      </div>
+    </div>
+  </section>
+</div>
