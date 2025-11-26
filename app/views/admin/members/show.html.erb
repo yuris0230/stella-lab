@@ -1,0 +1,100 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Member detail</h1>
+    <p class="app-page-subtitle">
+      Basic information and recent activity of this member.
+    </p>
+  </header>
+
+  <% profile = @member.user_profile %>
+  <% active  = !@member.has_attribute?(:is_active) || @member.is_active? %>
+
+  <!-- Profile summary -->
+  <section class="home-section">
+    <div class="home-row">
+      <div class="home-row-body">
+        <div class="home-row-label">
+          <%= profile&.display_name.presence || @member.email %>
+        </div>
+        <div class="home-row-meta">
+          Email: <%= @member.email %>
+          &nbsp;|&nbsp;
+          Joined: <%= l(@member.created_at.to_date, format: :long) rescue @member.created_at.to_date %>
+        </div>
+      </div>
+      <div class="home-row-stat">
+        <span class="home-row-count">
+          <%= active ? "Active" : "Withdrawn" %>
+        </span>
+      </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <%= link_to "Edit status", edit_admin_member_path(@member), class: "app-pill-button" %>
+    </div>
+  </section>
+
+  <!-- Profile body -->
+  <section class="home-section">
+    <h2 class="home-section-title">Profile</h2>
+    <div class="app-section-card">
+      <p>
+        <strong>Display name:</strong>
+        <%= profile&.display_name.presence || "-" %>
+      </p>
+      <hr class="my-3" />
+      <% if profile&.bio.present? %>
+        <p><%= simple_format(profile.bio) %></p>
+      <% else %>
+        <p class="page-muted">This member has not written a bio yet.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Activity -->
+  <section class="home-section">
+    <h2 class="home-section-title">Activity</h2>
+
+    <div class="app-section-card" style="margin-bottom: 1rem;">
+      <h3 class="app-section-title">Topics</h3>
+      <% if @topics.any? %>
+        <ul class="simple-list">
+          <% @topics.each do |topic| %>
+            <li class="simple-list-item">
+              <div>
+                <%= link_to topic.title, topic_path(topic), class: "simple-list-link" %>
+              </div>
+              <div class="simple-list-meta">
+                <%= l(topic.created_at, format: :short) rescue topic.created_at %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="page-muted">No topics created yet.</p>
+      <% end %>
+    </div>
+
+    <div class="app-section-card">
+      <h3 class="app-section-title">Posts</h3>
+      <% if @posts.any? %>
+        <ul class="simple-list">
+          <% @posts.each do |post| %>
+            <li class="simple-list-item">
+              <div>
+                <%= link_to truncate(post.body, length: 80),
+                            topic_path(post.topic, anchor: "post-#{post.id}"),
+                            class: "simple-list-link" %>
+              </div>
+              <div class="simple-list-meta">
+                <%= l(post.created_at, format: :short) rescue post.created_at %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="page-muted">No posts yet.</p>
+      <% end %>
+    </div>
+  </section>
+</div>

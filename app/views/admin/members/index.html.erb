@@ -1,0 +1,52 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Members</h1>
+    <p class="app-page-subtitle">
+      Manage registered users of Stella Lab.
+    </p>
+  </header>
+
+  <div class="app-section-card">
+    <% if @members.any? %>
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+        <thead>
+          <tr style="border-bottom: 1px solid rgba(55, 65, 81, 0.9);">
+            <th style="text-align: left; padding: 8px;">Member</th>
+            <th style="text-align: left; padding: 8px;">Email</th>
+            <th style="text-align: left; padding: 8px;">Status</th>
+            <th style="text-align: left; padding: 8px;">Joined</th>
+            <th style="text-align: left; padding: 8px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @members.each do |member| %>
+            <% profile = member.user_profile %>
+            <tr style="border-top: 1px solid rgba(31, 41, 55, 0.7);">
+              <td style="padding: 8px;">
+                <strong><%= profile&.display_name.presence || "(no name)" %></strong>
+              </td>
+              <td style="padding: 8px;">
+                <%= member.email %>
+              </td>
+              <td style="padding: 8px;">
+                <% active = !member.has_attribute?(:is_active) || member.is_active? %>
+                <span class="topic-pill <%= active ? "topic-pill-pinned" : "topic-pill-locked" %>">
+                  <%= active ? "Active" : "Withdrawn" %>
+                </span>
+              </td>
+              <td style="padding: 8px;">
+                <%= l(member.created_at.to_date, format: :long) rescue member.created_at.to_date %>
+              </td>
+              <td style="padding: 8px;">
+                <%= link_to "Show",  admin_member_path(member), class: "app-pill-button", style: "margin-right: 8px;" %>
+                <%= link_to "Edit",  edit_admin_member_path(member), class: "app-pill-button" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="page-muted">No members found.</p>
+    <% end %>
+  </div>
+</div>
