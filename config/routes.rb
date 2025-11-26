@@ -29,6 +29,11 @@ Rails.application.routes.draw do
   # My Page + unsubscribe (user account pages)
   # my_page_path already used in navbar/sidebar
   get "my_page", to: "users#show"
+  
+  # Edit own profile (display name, bio, etc.)
+  # /profile/edit -> user_profiles#edit
+  # PATCH /profile  -> user_profiles#update
+  resource :profile, only: [:edit, :update], controller: "user_profiles"
   delete "users/withdraw", to: "users#destroy", as: :users_withdraw
 
   # Favorites / likes index (for sidebar "Favorites")

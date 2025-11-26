@@ -5,17 +5,23 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one :user_profile, dependent: :destroy
 
-  # Community relations
-  has_many :posts, dependent: :destroy
-  has_many :created_topics, class_name: 'Topic', foreign_key: :created_by_user_id
+  # User can create topics and posts in community
+  has_many :topics, dependent: :nullify
+  has_many :posts,  dependent: :nullify
 
-  # Display name used in community pages
-  def display_name
-    # 1) user_profile.display_name if present
-    # 2) fall back to "name" column
-    # 3) fall back to email prefix (before @)
-    user_profile&.display_name.presence ||
-      name.presence ||
-      email.to_s.split('@').first
+  # Create default profile after user is created
+  after_create :build_default_profile
+
+  private
+  # Build a basic profile so My Page always has something to show
+  def build_default_profile
+    return if user_profile.present?
+
+    create_user_profile!(
+      display_name: (respond_to?(:name) && name.present?) ? name : "User#{id}",
+      bio: ""
+    )
+  rescue ActiveRecord::RecordInvalid
+    # If something goes wrong, do nothing (avoid breaking sign-up)
   end
 end
