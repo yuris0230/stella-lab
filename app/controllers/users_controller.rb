@@ -4,12 +4,14 @@ class UsersController < ApplicationController
   def show
     @user  = current_user
     @posts = @user.posts.order(created_at: :desc)
+    
+    # Recent activity for this user
+    @recent_topics = @user.topics.order(created_at: :desc).limit(5)
+    @recent_posts  = @user.posts.includes(:topic).order(created_at: :desc).limit(5)
   end
 
   def destroy
-    user = current_user
-    user.destroy
-    reset_session
-    redirect_to new_user_registration_path, notice: "退会が完了しました。ご利用ありがとうございました。"
+    current_user.destroy
+    redirect_to root_path, notice: "Your account has been deleted."
   end
 end

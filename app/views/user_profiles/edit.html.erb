@@ -1,0 +1,30 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Edit profile</h1>
+    <p class="app-page-subtitle">
+      Update your public display name and bio.
+    </p>
+  </header>
+
+  <div class="app-section-card">
+    <%= form_with model: @profile, url: profile_path, local: true do |f| %>
+      <!-- Display name field -->
+      <div class="form-group mb-3">
+        <%= f.label :display_name, "Display name" %>
+        <%= f.text_field :display_name, class: "form-control" %>
+      </div>
+
+      <!-- Bio field -->
+      <div class="form-group mb-3">
+        <%= f.label :bio, "Bio" %>
+        <%= f.text_area :bio, rows: 4, class: "form-control" %>
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex justify-content-end">
+        <%= link_to "Cancel", my_page_path, class: "btn btn-outline-secondary mr-2" %>
+        <%= f.submit "Save changes", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
