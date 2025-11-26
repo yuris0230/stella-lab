@@ -1,0 +1,73 @@
+<div class="page-content">
+  <!-- Topic header -->
+  <header class="page-header">
+    <h1 class="page-title"><%= @topic.title %></h1>
+    <p class="page-lead">
+      Started by <%= @topic.creator.display_name %>
+      · <%= @topic.created_at.strftime('%Y-%m-%d %H:%M') %>
+      <% if @topic.locked? || @topic.status_closed? %>
+        · <span class="topic-pill topic-pill-locked">Locked</span>
+      <% end %>
+    </p>
+  </header>
+
+  <!-- Posts list -->
+  <section class="page-section">
+    <div class="post-list">
+      <% @posts.each do |post| %>
+        <article class="post-card">
+          <header class="post-meta">
+            <div class="post-author">
+              <strong><%= post.user.display_name %></strong>
+            </div>
+            <div class="post-time">
+              <%= post.created_at.strftime('%Y-%m-%d %H:%M') %>
+            </div>
+          </header>
+          <div class="post-body">
+            <%= simple_format(h(post.body)) %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Reply form -->
+  <section class="page-section">
+    <% if @topic.locked? || @topic.status_closed? %>
+      <p class="page-muted">
+        This topic is locked. New replies cannot be posted.
+      </p>
+    <% elsif user_signed_in? %>
+      <h2 class="page-subtitle">Reply</h2>
+
+      <% if @post && @post.errors.any? %>
+        <div class="form-errors">
+          <p><strong>There were some problems:</strong></p>
+          <ul>
+            <% @post.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @post, url: topic_posts_path(@topic),
+                    local: true, html: { class: 'post-form' } do |f| %>
+        <div class="form-group">
+          <%= f.label :body, 'Message', class: 'form-label' %>
+          <%= f.text_area :body, rows: 5, class: 'form-textarea',
+                          placeholder: 'Write your reply…' %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit 'Post reply', class: 'primary-button' %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="page-muted">
+        Log in to reply to this topic.
+      </p>
+    <% end %>
+  </section>
+</div>

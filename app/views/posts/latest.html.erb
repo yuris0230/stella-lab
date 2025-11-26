@@ -1,0 +1,37 @@
+<div class="page-content">
+  <!-- Page header -->
+  <header class="app-page-header">
+    <h1 class="app-page-title">Latest posts</h1>
+    <p class="app-page-subtitle">
+      Recent replies across all topics.
+    </p>
+  </header>
+
+  <div class="d-flex justify-content-end mb-3">
+  <% if @posts.any? %>
+    <ul class="list-unstyled">
+      <% @posts.each do |post| %>
+        <li class="mb-3 pb-3 border-bottom border-secondary">
+          <div class="d-flex justify-content-between">
+            <div>
+              <strong>
+                <%= link_to post.topic.title, topic_path(post.topic), class: "text-light" %>
+              </strong>
+
+              <div class="small text-muted">
+                <%= post.user&.user_profile&.display_name || post.guest_name || "Guest" %>
+              </div>
+            </div>
+
+            <div class="small text-muted">
+              <%= l(post.created_at, format: :short) %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-muted">No posts have been created yet.</p>
+  <% end %>
+  </div>
+</div>

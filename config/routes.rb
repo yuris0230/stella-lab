@@ -16,9 +16,10 @@ Rails.application.routes.draw do
 
   # Community content
   # topics_path, topic_path
-  resources :topics, only: [:index, :show]
-  # posts_path, etc. (used for "Latest Posts")
-  resources :posts
+  resources :topics, only: [:index, :show, :new, :create] do
+    resources :posts, only: [:create]
+  end
+  get 'latest_posts', to: 'posts#latest', as: :latest_posts
 
   # Member directory (user side)
   # members_path, member_path
