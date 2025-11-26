@@ -18,6 +18,19 @@
           Rarity: <strong><%= @item.rarity %></strong>
         <% end %>
       </p>
+
+      <!-- Start topic button -->
+      <div class="d-flex justify-content-end mt-3">
+        <% if user_signed_in? %>
+          <%= link_to "Start topic",
+                      new_item_topic_path(@item),
+                      class: "btn btn-outline-light btn-sm" %>
+        <% else %>
+          <%= link_to "Log in to start a topic",
+                      new_user_session_path,
+                      class: "btn btn-outline-light btn-sm" %>
+        <% end %>
+      </div>
     </section>
 
     <!-- Summary / description -->
@@ -36,7 +49,9 @@
 
     <!-- Back link -->
     <section class="home-section">
-      <%= link_to '← Back to Items list', items_path, class: 'home-row home-row-link' %>
+      <%= link_to "← Back to Items list",
+                  items_path,
+                  class: "home-row home-row-link" %>
     </section>
   </div>
 </div>

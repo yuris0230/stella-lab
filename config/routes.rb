@@ -9,14 +9,18 @@ Rails.application.routes.draw do
 
   # Main browsable game data
   # These will provide characters_path, items_path, guides_path, tier_lists_path
-  resources :characters, only: [:index, :show]
-  resources :items, only: [:index, :show]
+  resources :characters, only: [:index, :show] do
+    resources :topics, only: [:new, :create]
+  end
+  resources :items, only: [:index, :show] do
+    resources :topics, only: [:new, :create]
+  end
   resources :guides, only: [:index, :show]
   resources :tier_lists, only: [:index, :show]
 
   # Community content
   # topics_path, topic_path
-  resources :topics, only: [:index, :show, :new, :create] do
+  resources :topics, only: [:index, :show] do
     resources :posts, only: [:create]
   end
   get 'latest_posts', to: 'posts#latest', as: :latest_posts

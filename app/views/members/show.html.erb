@@ -1,34 +1,19 @@
 <div class="page-content">
-  <% display_name = @profile&.display_name.presence || @user.email %>
-
-  <!-- Page header -->
   <header class="app-page-header">
-    <h1 class="app-page-title">My Page</h1>
+    <h1 class="app-page-title">
+      <%= @profile&.display_name.presence || @member.email %>
+    </h1>
     <p class="app-page-subtitle">
-      Manage your profile and see your recent activity on Stella Lab.
+      Member since
+      <%= l(@member.created_at.to_date, format: :long) rescue @member.created_at.to_date %>.
+      <%= @topics_count %> topics · <%= @posts_count %> posts
     </p>
   </header>
 
-  <!-- Profile summary card -->
-  <section class="home-section">
-    <div class="home-row">
-      <div class="home-row-body">
-        <div class="home-row-label">
-          <%= (@profile&.display_name.presence || @user.email) %>
-        </div>
-        <div class="home-row-meta">
-          Joined <%= l(@user.created_at.to_date, format: :long) rescue @user.created_at.to_date %>
-        </div>
-      </div>
-      <div class="home-row-stat">
-        <%= link_to "Edit", edit_profile_path, class: "app-pill-button" %>
-      </div>
-    </div>
-  </section>
-
-  <!-- Profile details -->
+  <!-- Profile card -->
   <section class="home-section">
     <h2 class="home-section-title">Profile</h2>
+
     <div class="app-section-card">
       <p>
         <strong>Display name:</strong>
@@ -40,21 +25,16 @@
       <% if @profile&.bio.present? %>
         <p><%= simple_format(@profile.bio) %></p>
       <% else %>
-        <p class="text-muted mb-0">
-          You have not written a bio yet.
-        </p>
+        <p class="text-muted mb-0">This member has not written a bio yet.</p>
       <% end %>
     </div>
   </section>
 
-  <!-- Recent activity -->
+  <!-- Recent topics -->
   <section class="home-section">
-    <h2 class="home-section-title">Recent activity</h2>
+    <h2 class="home-section-title">Recent topics</h2>
 
-    <!-- Recent topics -->
-    <div class="app-section-card mb-3">
-      <h3 class="app-section-title">Your topics</h3>
-
+    <div class="app-section-card">
       <% if @recent_topics.any? %>
         <ul class="list-unstyled mb-0">
           <% @recent_topics.each do |topic| %>
@@ -67,14 +47,16 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="text-muted mb-0">You have not created any topics yet.</p>
+        <p class="text-muted mb-0">No topics created yet.</p>
       <% end %>
     </div>
+  </section>
 
-    <!-- Recent posts -->
+  <!-- Recent posts -->
+  <section class="home-section">
+    <h2 class="home-section-title">Recent posts</h2>
+
     <div class="app-section-card">
-      <h3 class="app-section-title">Your posts</h3>
-
       <% if @recent_posts.any? %>
         <ul class="list-unstyled mb-0">
           <% @recent_posts.each do |post| %>
@@ -88,7 +70,7 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="text-muted mb-0">You have not posted anything yet.</p>
+        <p class="text-muted mb-0">No posts created yet.</p>
       <% end %>
     </div>
   </section>

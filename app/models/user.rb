@@ -6,7 +6,10 @@ class User < ApplicationRecord
   has_one :user_profile, dependent: :destroy
 
   # User can create topics and posts in community
-  has_many :topics, dependent: :nullify
+  has_many :topics,
+           foreign_key: :created_by_user_id,
+           inverse_of: :created_by_user,
+           dependent: :nullify
   has_many :posts,  dependent: :nullify
 
   # Create default profile after user is created

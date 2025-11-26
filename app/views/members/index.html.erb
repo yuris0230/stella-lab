@@ -1,0 +1,45 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Member list</h1>
+    <p class="app-page-subtitle">
+      Browse members of Stella Lab and view their public profiles and activity.
+    </p>
+  </header>
+
+  <section class="home-section">
+    <% if @members.any? %>
+      <div class="home-row-list">
+        <% @members.each do |member| %>
+          <% profile = member.user_profile %>
+
+          <%= link_to member_path(member), class: "home-row home-row-link" do %>
+            <div class="home-row-body">
+              <!-- display name หรือ email -->
+              <div class="home-row-label">
+                <%= profile&.display_name.presence || member.email %>
+              </div>
+
+              <!-- bio สั้น ๆ + joined date -->
+              <div class="home-row-meta">
+                Joined
+                <%= l(member.created_at.to_date, format: :long) rescue member.created_at.to_date %>
+                ·
+                <%= (profile&.bio.presence || "No bio yet.").truncate(80) %>
+              </div>
+            </div>
+
+            <!-- stats: topics / posts -->
+            <div class="home-row-stat">
+              <span class="home-row-count">
+                <%= member.topics.count %> topics /
+                <%= member.posts.count %> posts
+              </span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted">No members found.</p>
+    <% end %>
+  </section>
+</div>

@@ -7,16 +7,14 @@
     </p>
   </header>
 
-  <!-- Action row: new topic / login -->
+  <!-- Action row: 안내เฉย ๆ / login -->
   <div class="d-flex justify-content-end mb-3">
     <% if user_signed_in? %>
-      <!-- If logged in: show "Create new topic" button -->
-      <%= link_to "Create new topic",
-                  new_topic_path,
-                  class: "btn btn-primary btn-sm" %>
+      <span class="text-muted small">
+        To start a new topic, open a character or item page and click “Start topic”.
+      </span>
     <% else %>
-      <!-- If not logged in: show "Log in" button -->
-      <%= link_to "Log in to create a new topic",
+      <%= link_to "Log in to start a topic",
                   new_user_session_path,
                   class: "btn btn-outline-light btn-sm" %>
     <% end %>
@@ -37,7 +35,6 @@
               </div>
             </div>
             <div class="small text-muted">
-              <!-- จำนวน reply -->
               <%= pluralize(topic.posts.count, "post") %>
             </div>
           </div>
