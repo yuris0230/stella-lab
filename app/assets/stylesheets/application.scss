@@ -1160,14 +1160,15 @@ body.app-body {
   object-fit: cover;
 }
 
-.admin-character-name {
+.admin-character-name,
+.admin-character-name a {
   font-size: 0.96rem;
   font-weight: 600;
   color: var(--app-text-main);
   text-decoration: none;
 }
 
-.admin-character-name:hover {
+.admin-character-name a:hover {
   color: var(--app-accent);
 }
 

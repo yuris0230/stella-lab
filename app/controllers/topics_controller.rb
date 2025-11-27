@@ -1,19 +1,21 @@
 class TopicsController < ApplicationController
   # Only logged-in users can create topics
   before_action :authenticate_user!, only: [:new, :create]
-  before_action :set_topic, only: [:show]
+  before_action :set_topic,    only: [:show]
   before_action :set_topicable, only: [:new, :create]
 
   # List of all topics
   def index
-    # Includes creator to avoid N+1 queries
-    @topics = Topic.includes(:created_by_user).ordered
+    # if no delete + include creator prot N+1
+    @topics = Topic.not_deleted
+                   .includes(:created_by_user)
+                   .ordered
   end
 
   # Single topic with posts
   def show
-    @topic = Topic.find(params[:id])
-    @posts = @topic.posts.order(:created_at)
+    # use @topic from set_topic
+    @posts = @topic.posts.not_deleted.order(:created_at)
     @post  = @topic.posts.build
   end
 
@@ -26,7 +28,7 @@ class TopicsController < ApplicationController
   def create
     @topic = Topic.new(topic_params)
     @topic.created_by_user = current_user
-    @topic.topicable = @topicable
+    @topic.topicable       = @topicable
 
     first_body = params[:topic][:first_post_body]
 
@@ -44,7 +46,8 @@ class TopicsController < ApplicationController
   private
 
   def set_topic
-    @topic = Topic.find(params[:id])
+    # if is_deleted use scope not_deleted
+    @topic = Topic.not_deleted.find(params[:id])
   end
 
   def set_topicable
