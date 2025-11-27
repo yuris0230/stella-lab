@@ -1,0 +1,92 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Items</h1>
+    <p class="app-page-subtitle">
+      Manage basic item data and icons.
+    </p>
+  </header>
+
+  <!-- New item -->
+  <div class="page-header-actions">
+    <%= link_to "+ New item",
+                new_admin_item_path,
+                class: "app-button-primary" %>
+  </div>
+
+  <% if @items.any? %>
+    <div class="admin-table">
+      <!-- Header row -->
+      <div class="admin-table-header">
+        <div class="admin-table-cell admin-table-cell-main">Item</div>
+        <div class="admin-table-cell">Rarity</div>
+        <div class="admin-table-cell">Type</div>
+        <div class="admin-table-cell">Published</div>
+        <div class="admin-table-cell admin-table-cell-actions"></div>
+      </div>
+
+      <!-- Data rows -->
+      <% @items.each do |item| %>
+        <div class="admin-table-row">
+          <!-- main: icon + name -->
+          <div class="admin-table-cell admin-table-cell-main">
+            <div class="admin-character-main">
+              <div class="admin-character-thumb">
+                <% if item.icon.attached? %>
+                  <%= image_tag item.icon.variant(resize_to_fill: [80, 100]),
+                                alt: item.name %>
+                <% else %>
+                  <span><%= item.name.to_s.first&.upcase || "?" %></span>
+                <% end %>
+              </div>
+              <div>
+                <%= link_to item.name,
+                            admin_item_path(item),
+                            class: "admin-character-name" %>
+
+                <div class="admin-character-meta">
+                  <%= item.item_type&.titleize || "-" %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rarity -->
+          <div class="admin-table-cell">
+            <%= item.rarity.present? ? item.rarity.upcase : "-" %>
+          </div>
+
+          <!-- Type -->
+          <div class="admin-table-cell">
+            <%= item.item_type.present? ? item.item_type.titleize : "-" %>
+          </div>
+
+          <!-- Published -->
+          <div class="admin-table-cell">
+            <% if item.is_published? %>
+              <span class="admin-badge admin-badge-green">Yes</span>
+            <% else %>
+              <span class="admin-badge admin-badge-gray">No</span>
+            <% end %>
+          </div>
+
+          <!-- Actions (Edit / Delete) -->
+          <div class="admin-table-cell admin-table-cell-actions">
+            <%= link_to "Edit",
+                        edit_admin_item_path(item),
+                        class: "app-pill-button" %>
+
+            <%= button_to "Delete",
+                          admin_item_path(item),
+                          method: :delete,
+                          data: { confirm: "Delete this item? This cannot be undone." },
+                          class: "app-pill-button app-pill-button-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="page-muted">
+      No items have been created yet.
+    </p>
+  <% end %>
+</div>

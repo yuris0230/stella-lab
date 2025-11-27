@@ -19,6 +19,34 @@
         Role: <strong><%= @character.job %></strong>
       </p>
 
+      <!-- Recommended equipment -->
+      <% if @character.recommended_items.any? %>
+        <section class="home-section">
+          <h2 class="home-section-title">Recommended equipment</h2>
+          <div class="app-section-card">
+            <ul class="home-bullet-list">
+              <% @character.recommended_items.each do |item| %>
+                <li><%= link_to item.name, item_path(item) %></li>
+              <% end %>
+            </ul>
+          </div>
+        </section>
+      <% end %>
+
+      <!-- Recommended team -->
+      <% if @character.recommended_teammates.any? %>
+        <section class="home-section">
+          <h2 class="home-section-title">Recommended team</h2>
+          <div class="app-section-card">
+            <ul class="home-bullet-list">
+              <% @character.recommended_teammates.each do |mate| %>
+                <li><%= link_to mate.name, character_path(mate) %></li>
+              <% end %>
+            </ul>
+          </div>
+        </section>
+      <% end %>
+
       <!-- Start topic button -->
       <div class="d-flex justify-content-end mt-3">
         <% if user_signed_in? %>

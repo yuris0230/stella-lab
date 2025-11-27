@@ -62,21 +62,31 @@
     </div>
   <% end %>
 
-  <!-- Result list (basic for now) -->
-  <section class="page-section">
-    <% if @characters.any? %>
-      <ul class="simple-list">
-        <% @characters.each do |character| %>
-          <li class="simple-list-item">
-            <%= link_to character.name, character_path(character), class: 'simple-list-link' %>
-            <span class="simple-list-meta">
-              <%= character.rarity.upcase %> · <%= character.element.capitalize %> · <%= character.job.capitalize %>
-            </span>
-          </li>
+  <!-- Result list -->
+  <section class="home-section">
+    <div class="character-grid">
+      <% @characters.each do |ch| %>
+        <%= link_to character_path(ch), class: "character-card" do %>
+          <div class="character-card-image-wrap">
+            <% if ch.portrait.attached? %>
+              <%= image_tag ch.portrait.variant(resize_to_fill: [220, 260]),
+                            alt: ch.name,
+                            class: "character-card-image" %>
+            <% else %>
+              <div class="character-card-placeholder">
+                <span><%= ch.name.first.upcase %></span>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="character-card-footer">
+            <div class="character-card-name"><%= ch.name %></div>
+            <% if ch.job.present? %>
+              <div class="character-card-role"><%= ch.job.humanize %></div>
+            <% end %>
+          </div>
         <% end %>
-      </ul>
-    <% else %>
-      <p class="page-muted">No characters match your filters yet.</p>
-    <% end %>
+      <% end %>
+    </div>
   </section>
 </div>

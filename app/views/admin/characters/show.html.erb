@@ -1,0 +1,66 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title"><%= @character.name %></h1>
+    <p class="app-page-subtitle">
+      Rarity: <strong><%= @character.rarity %></strong>
+      &nbsp;|&nbsp;
+      Element: <strong><%= @character.element %></strong>
+      &nbsp;|&nbsp;
+      Weapon: <strong><%= @character.weapon_type %></strong>
+      &nbsp;|&nbsp;
+      Role: <strong><%= @character.job %></strong>
+    </p>
+  </header>
+
+  <section class="home-section">
+    <div class="app-section-card">
+      <p>
+        <strong>Published:</strong>
+        <%= @character.is_published? ? "Yes" : "No" %>
+      </p>
+      <% if @character.summary.present? %>
+        <hr />
+        <p><%= simple_format(@character.summary) %></p>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2 class="home-section-title">Recommended equipment</h2>
+    <div class="app-section-card">
+      <% if @character.recommended_items.any? %>
+        <ul class="home-bullet-list">
+          <% @character.recommended_items.each do |item| %>
+            <li>
+              <%= link_to item.name, admin_item_path(item) %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">No recommended equipment set yet.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <h2 class="home-section-title">Recommended team</h2>
+    <div class="app-section-card">
+      <% if @character.recommended_teammates.any? %>
+        <ul class="home-bullet-list">
+          <% @character.recommended_teammates.each do |mate| %>
+            <li>
+              <%= link_to mate.name, admin_character_path(mate) %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">No recommended team members set yet.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <%= link_to "Edit character", edit_admin_character_path(@character),
+                class: "home-row home-row-link" %>
+  </section>
+</div>
