@@ -1,0 +1,33 @@
+<div class="page-content">
+  <div class="home-page">
+    <section class="home-hero">
+      <h1 class="home-title">Tier lists</h1>
+      <p class="home-lead">
+        Browse tier lists created by admins. Each tier list groups characters by strength or role.
+      </p>
+    </section>
+
+    <% if @tier_lists.any? %>
+      <section class="home-section">
+        <h2 class="home-section-title">Available tier lists</h2>
+
+        <ul class="simple-list">
+          <% @tier_lists.each do |list| %>
+            <li class="simple-list-item">
+              <%= link_to list.title,
+                          tier_list_path(list),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                <%= pluralize(list.tier_list_entries.size, "entry") %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </section>
+    <% else %>
+      <p class="page-muted">
+        No tier lists have been published yet.
+      </p>
+    <% end %>
+  </div>
+</div>

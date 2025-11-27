@@ -19,6 +19,17 @@ class Topic < ApplicationRecord
   validates :title, presence: true, length: { maximum: 120 }
   validates :topicable, presence: true
 
+  # Like
+  has_many :likes, as: :likeable, dependent: :destroy
+
   # Sort pinned topics first, then by recent update
   scope :ordered, -> { order(pinned: :desc, updated_at: :desc) }
+  # hide if is_deleted = true
+  scope :not_deleted, -> {
+    if column_names.include?("is_deleted")
+      where(is_deleted: false)
+    else
+      all
+    end
+  }
 end

@@ -25,34 +25,78 @@
       <ul class="app-sidebar-nav">
         <li class="nav-item">
           <%= link_to admin_root_path, class: "app-sidebar-link" do %>
-            <span class="app-sidebar-icon"><i class="fas fa-gauge"></i></span>
+            <span class="app-sidebar-icon"><i class="fas fa-home"></i></span>
             <span class="app-sidebar-label">Dashboard</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to edit_admin_home_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-gamepad"></i></span>
+            <span class="app-sidebar-label">Home content</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to edit_admin_about_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-info-circle"></i></span>
+            <span class="app-sidebar-label">About content</span>
           <% end %>
         </li>
       </ul>
     </div>
 
-    <!-- Management section (only placeholder) -->
+    <!-- Management section -->
     <div class="app-sidebar-section">
       <p class="app-sidebar-title">Management</p>
       <ul class="app-sidebar-nav">
         <li class="nav-item">
-          <span class="app-sidebar-link" style="opacity: .6; cursor: default;">
+          <%= link_to admin_members_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-users-cog"></i></span>
+            <span class="app-sidebar-label">Users</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Content management -->
+    <div class="app-sidebar-section">
+      <p class="app-sidebar-title">Content</p>
+      <ul class="app-sidebar-nav">
+        <li class="nav-item">
+          <%= link_to admin_characters_path, class: "app-sidebar-link" do %>
             <span class="app-sidebar-icon"><i class="fas fa-users"></i></span>
-            <span class="app-sidebar-label">Users (coming soon)</span>
-          </span>
+            <span class="app-sidebar-label">Characters</span>
+          <% end %>
         </li>
         <li class="nav-item">
-          <span class="app-sidebar-link" style="opacity: .6; cursor: default;">
-            <span class="app-sidebar-icon"><i class="fas fa-chess-knight"></i></span>
-            <span class="app-sidebar-label">Characters (coming soon)</span>
-          </span>
+          <%= link_to admin_items_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-gem"></i></span>
+            <span class="app-sidebar-label">Items</span>
+          <% end %>
         </li>
         <li class="nav-item">
-          <span class="app-sidebar-link" style="opacity: .6; cursor: default;">
+          <%= link_to admin_tier_lists_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-signal"></i></span>
+            <span class="app-sidebar-label">Tier lists</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to admin_guides_path, class: "app-sidebar-link" do %>
+            <span class="app-sidebar-icon"><i class="fas fa-book-open"></i></span>
+            <span class="app-sidebar-label">Guides</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Community moderation -->
+    <div class="app-sidebar-section">
+      <p class="app-sidebar-title">Community</p>
+      <ul class="app-sidebar-nav">
+        <li class="nav-item">
+          <%= link_to admin_topics_path, class: "app-sidebar-link" do %>
             <span class="app-sidebar-icon"><i class="fas fa-comments"></i></span>
-            <span class="app-sidebar-label">Topics (coming soon)</span>
-          </span>
+            <span class="app-sidebar-label">Topics</span>
+          <% end %>
         </li>
       </ul>
     </div>

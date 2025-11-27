@@ -1,0 +1,63 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Edit member status</h1>
+    <p class="app-page-subtitle">
+      Change this member's account status (active / withdrawn).
+    </p>
+  </header>
+
+  <% profile = @member.user_profile %>
+
+  <section class="home-section">
+    <div class="app-section-card">
+      <p>
+        <strong>Member:</strong>
+        <%= profile&.display_name.presence || @member.email %>
+      </p>
+      <p>
+        <strong>Email:</strong>
+        <%= @member.email %>
+      </p>
+      <p>
+        <strong>Joined:</strong>
+        <%= l(@member.created_at.to_date, format: :long) rescue @member.created_at.to_date %>
+      </p>
+
+      <hr class="my-3" />
+
+      <!-- explicit URL + method so Rails ไม่เดา admin_user_path -->
+      <%= form_with model: @member,
+                    url: admin_member_path(@member),
+                    method: :patch,
+                    local: true do |f| %>
+        <div class="app-form-group">
+          <span class="app-form-label">Status</span>
+          <div class="app-form-hint">
+            Choose whether this account is active or withdrawn.
+          </div>
+
+          <div class="app-form-inline" style="gap: 16px; margin-top: 8px;">
+            <label class="app-checkbox">
+              <%= radio_button_tag "user[status]",
+                                   "active",
+                                   @member.has_attribute?(:is_active) ? @member.is_active? : true %>
+              <span>Active</span>
+            </label>
+
+            <label class="app-checkbox">
+              <%= radio_button_tag "user[status]",
+                                   "withdrawn",
+                                   @member.has_attribute?(:is_active) ? !@member.is_active? : false %>
+              <span>Withdrawn</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <%= link_to "Back", admin_member_path(@member), class: "app-button-secondary" %>
+          <%= f.submit "Save changes", class: "app-button-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,84 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title"><%= @topic.title %></h1>
+    <p class="app-page-subtitle">
+      Topic moderation. You can hide or delete individual comments.
+    </p>
+  </header>
+
+  <% first_post = @posts.first %>
+
+  <!-- Topic body -->
+  <section class="home-section">
+    <h2 class="home-section-title">Topic</h2>
+    <div class="post-card">
+      <div class="post-meta">
+        <% author = @topic.created_by_user %>
+        <span>
+          By
+          <%= author&.user_profile&.display_name || author&.name || "Guest" %>
+        </span>
+        <span>
+          <%= l(@topic.created_at, format: :short) rescue @topic.created_at %>
+        </span>
+      </div>
+      <div class="post-body">
+        <% if first_post.present? %>
+          <%= simple_format(h(first_post.body)) %>
+        <% else %>
+          <span class="page-muted">No body for this topic.</span>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comments -->
+  <section class="home-section" style="margin-top: 24px;">
+    <h2 class="home-section-title">Comments</h2>
+
+    <% comments = @posts.offset(1) %>
+
+    <% if comments.any? %>
+      <div class="post-list">
+        <% comments.each do |post| %>
+          <div class="post-card">
+            <div class="post-meta">
+              <% c_author = post.user %>
+              <span>
+                <%= c_author&.user_profile&.display_name || c_author&.name || "Guest" %>
+              </span>
+              <span>
+                <%= l(post.created_at, format: :short) rescue post.created_at %>
+              </span>
+            </div>
+            <div class="post-body">
+              <%= simple_format(h(post.body)) %>
+            </div>
+
+            <div class="form-actions" style="margin-top: 8px;">
+              <% if Post.column_names.include?("is_deleted") && post.is_deleted? %>
+                <%= button_to "Unhide",
+                              unhide_admin_post_path(post),
+                              method: :patch,
+                              class: "app-pill-button" %>
+              <% else %>
+                <%= button_to "Hide",
+                              hide_admin_post_path(post),
+                              method: :patch,
+                              class: "app-pill-button" %>
+              <% end %>
+
+              <%= button_to "Delete",
+                            admin_post_path(post),
+                            method: :delete,
+                            data: { confirm: "Delete this comment?" },
+                            class: "app-pill-button app-pill-button-danger" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="page-muted">No comments in this topic yet.</p>
+    <% end %>
+  </section>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_26_174818) do
+ActiveRecord::Schema.define(version: 2025_11_27_155849) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -51,6 +51,28 @@ ActiveRecord::Schema.define(version: 2025_11_26_174818) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "character_recommended_items", force: :cascade do |t|
+    t.integer "character_id", null: false
+    t.integer "item_id", null: false
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["character_id", "item_id"], name: "index_character_recommended_items_unique", unique: true
+    t.index ["character_id"], name: "index_character_recommended_items_on_character_id"
+    t.index ["item_id"], name: "index_character_recommended_items_on_item_id"
+  end
+
+  create_table "character_team_members", force: :cascade do |t|
+    t.integer "character_id", null: false
+    t.integer "teammate_id", null: false
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["character_id", "teammate_id"], name: "index_character_team_members_unique", unique: true
+    t.index ["character_id"], name: "index_character_team_members_on_character_id"
+    t.index ["teammate_id"], name: "index_character_team_members_on_teammate_id"
   end
 
   create_table "characters", force: :cascade do |t|
@@ -115,6 +137,15 @@ ActiveRecord::Schema.define(version: 2025_11_26_174818) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "site_texts", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key"], name: "index_site_texts_on_key", unique: true
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer "topic_id", null: false
     t.integer "tag_id", null: false
@@ -136,7 +167,7 @@ ActiveRecord::Schema.define(version: 2025_11_26_174818) do
   create_table "tier_list_entries", force: :cascade do |t|
     t.integer "tier_list_id", null: false
     t.integer "character_id", null: false
-    t.integer "tier_rank", null: false
+    t.string "tier_rank", null: false
     t.string "notes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -161,6 +192,10 @@ ActiveRecord::Schema.define(version: 2025_11_26_174818) do
     t.boolean "locked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_deleted", default: false, null: false
+    t.integer "deleted_by_admin_id"
+    t.index ["deleted_by_admin_id"], name: "index_topics_on_deleted_by_admin_id"
+    t.index ["is_deleted"], name: "index_topics_on_is_deleted"
     t.index ["topicable_type", "topicable_id"], name: "index_topics_on_topicable_type_and_topicable_id"
   end
 
@@ -190,6 +225,10 @@ ActiveRecord::Schema.define(version: 2025_11_26_174818) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "character_recommended_items", "characters"
+  add_foreign_key "character_recommended_items", "items"
+  add_foreign_key "character_team_members", "characters"
+  add_foreign_key "character_team_members", "characters", column: "teammate_id"
   add_foreign_key "guides", "admins", column: "author_admin_id"
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "admins", column: "deleted_by_admin_id"

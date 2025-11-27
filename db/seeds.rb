@@ -6,8 +6,22 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Admin.find_or_create_by!(email: "admin@example.com") do |a|
-  a.name = "(Admin)Yunyun"
-  a.password = "password"
-  a.password_confirmation = "password"
+# Default content for Home "Game info" section
+SiteText.find_or_create_by!(key: "home_game_info") do |st|
+  st.title = "Game information"
+  st.body  = <<~TEXT
+    This section describes the game Stella Lab is focusing on.
+    You can edit this text from the admin panel (Admin > Home content).
+  TEXT
+end
+
+# Default content for About page main body
+SiteText.find_or_create_by!(key: "about_body") do |st|
+  st.title = "About Stella Lab"
+  st.body  = <<~TEXT
+    Stella Lab is a fan-made hub that collects game data, tier lists,
+    and community discussions for players who want both fun and depth.
+
+    You can customize this text from the admin panel (Admin > About content).
+  TEXT
 end

@@ -923,6 +923,14 @@ body.app-body {
   color: var(--app-text-main);
   font-size: 0.95rem;
   margin: 0 auto;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
+  select.app-form-control {
+    min-height: 48px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .app-form-control:focus {
@@ -1014,29 +1022,356 @@ body.app-body {
   font-size: 0.85rem;
 }
 
-/* Edit on My Page */
-.app-pill-button {
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 18px;
+}
+
+.character-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background: linear-gradient(180deg, #020617, #020617);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(31, 41, 55, 0.7);
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.character-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.9);
+  border-color: rgba(56, 189, 248, 0.7);
+}
+
+.character-card-image-wrap {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #020617;
+}
+
+.character-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.character-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  background: radial-gradient(circle at 30% 10%, #38bdf8, #1d4ed8);
+  color: #e5e7eb;
+}
+
+.character-card-footer {
+  padding: 8px 10px 10px;
+}
+
+.character-card-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--app-text-main);
+  text-decoration: none;
+}
+
+.character-card-name:visited {
+  color: var(--app-text-main);
+}
+
+.character-card-name:visited {
+  color: var(--app-text-main);
+}
+
+.character-card-role {
+  font-size: 0.8rem;
+  color: var(--app-text-muted);
+}
+
+/* ===== Admin characters/items list ===== */
+
+.admin-table {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 0 0 1px rgba(30, 64, 175, 0.35);
+}
+
+.admin-table-header,
+.admin-table-row {
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 3fr)  /* character (image + name) */
+    minmax(70px, 0.9fr) /* rarity */
+    minmax(90px, 1fr)   /* element */
+    minmax(90px, 1fr)   /* role */
+    minmax(90px, 0.9fr) /* published */
+    minmax(80px, 0.8fr);/* actions */
+  padding: 10px 16px;
+  column-gap: 12px;
+}
+
+.admin-table-header {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--app-text-muted);
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.admin-table-row + .admin-table-row {
+  border-top: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+/* main cell: portrait + name */
+.admin-character-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-character-thumb {
+  width: 56px;
+  height: 72px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 10%, #38bdf8, #1d4ed8);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #e5e7eb;
+}
+
+.admin-character-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-character-name,
+.admin-character-name a {
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--app-text-main);
+  text-decoration: none;
+}
+
+.admin-character-name a:hover {
+  color: var(--app-accent);
+}
+
+.admin-character-meta {
+  font-size: 0.8rem;
+  color: var(--app-text-muted);
+}
+
+/* published badge */
+.admin-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 14px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.admin-badge-green {
+  background: rgba(16, 185, 129, 0.16);
+  color: #6ee7b7;
+}
+
+.admin-badge-gray {
+  background: rgba(75, 85, 99, 0.5);
+  color: #e5e7eb;
+}
+
+.admin-table-row {
+  align-items: center;
+}
+
+.admin-table-row > .admin-table-cell {
+  display: flex;
+  align-items: center;
+}
+
+.admin-table-cell-main {
+  align-items: center;
+}
+
+.item-list-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-list-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-list-placeholder {
+  font-size: 0.9rem;
+  color: var(--app-text-muted);
+}
+
+.item-list-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-list-meta {
+  font-size: 0.8rem;
+  color: var(--app-text-muted);
+}
+
+.admin-col-character,
+.admin-col-item {
+  flex: 2.2;
+}
+
+.admin-col-rarity,
+.admin-col-element,
+.admin-col-role,
+.admin-col-type,
+.admin-col-published {
+  flex: 0.9;
+  justify-content: center;
+}
+
+.admin-col-actions {
+  flex: 0 0 190px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-col-actions .app-pill-button + .app-pill-button {
+  margin-left: 8px;
+}
+
+.admin-character-main,
+.admin-item-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-table-col-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  flex: 0 0 130px;
+  white-space: nowrap;
+}
+
+/* ===== Pill buttons (Edit / Delete / etc.) ===== */
+
+.app-pill-button,
+.app-pill-button-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  padding: 8px 22px;
+  min-width: 100px;
+
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.75);
   background: transparent;
   color: var(--app-text-main);
-  font-size: 0.85rem;
+
+  font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
+  white-space: nowrap;
+
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
+    border-color 0.15s ease,
     box-shadow 0.15s ease,
     transform 0.08s ease;
 }
 
+/* Edit */
 .app-pill-button:hover {
   background: var(--app-accent);
   color: #020617;
   box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
   transform: translateY(-1px);
+}
+
+/* Delete */
+.app-pill-button-danger {
+  border-color: rgba(248, 113, 113, 0.9);
+  color: #fecaca;
+}
+
+.app-pill-button-danger:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #020617;
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Actions column */
+.admin-table-cell-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.character-footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.character-card-like-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.like-heart-form {
+  margin: 0;
+}
+
+.like-heart-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
 }

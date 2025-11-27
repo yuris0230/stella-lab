@@ -1,0 +1,119 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Topics</h1>
+    <p class="app-page-subtitle">
+      Moderate community topics and comments.
+    </p>
+  </header>
+
+  <!-- Filter -->
+  <div class="page-header-actions">
+    <%= form_with url: admin_topics_path, method: :get, local: true do |f| %>
+      <label class="filter-label" style="margin-right: 8px;">
+        <span>Filter</span>
+        <%= f.select :filter,
+                     [["All", "all"],
+                      ["Characters only", "characters"],
+                      ["Items only", "items"],
+                      ["Hidden / deleted", "deleted"]],
+                     { selected: @filter },
+                     class: "app-form-control",
+                     style: "min-width: 220px;" %>
+      </label>
+      <%= f.submit "Apply", class: "primary-button" %>
+    <% end %>
+  </div>
+
+  <% if @topics.any? %>
+    <div class="admin-table">
+      <!-- header row -->
+      <div class="admin-table-header">
+        <div class="admin-table-cell admin-table-cell-main">Topic</div>
+        <div class="admin-table-cell">For</div>
+        <div class="admin-table-cell">Comments</div>
+        <div class="admin-table-cell">Status</div>
+        <div class="admin-table-cell">Created</div>
+        <div class="admin-table-cell admin-table-cell-actions"></div>
+      </div>
+
+      <!-- data rows -->
+      <% @topics.each do |topic| %>
+        <% creator = topic.created_by_user %>
+
+        <div class="admin-table-row">
+          <!-- main: title + author -->
+          <div class="admin-table-cell admin-table-cell-main">
+            <div class="admin-item-main">
+              <div class="admin-item-text">
+                <div class="admin-character-name">
+                  <%= link_to topic.title, admin_topic_path(topic) %>
+                </div>
+                <div class="admin-character-meta">
+                  by
+                  <%= creator&.user_profile&.display_name ||
+                      creator&.name ||
+                      "Guest" %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- For (Character / Item) -->
+          <div class="admin-table-cell">
+            <span class="admin-pill">
+              <%= topic.topicable_type %>
+            </span>
+          </div>
+
+          <!-- comments count -->
+          <div class="admin-table-cell">
+            <span class="admin-pill"><%= topic.posts.size %></span>
+          </div>
+
+          <!-- status -->
+          <div class="admin-table-cell">
+            <% if Topic.column_names.include?("is_deleted") && topic.is_deleted? %>
+              <span class="admin-badge admin-badge-gray">Hidden / deleted</span>
+            <% else %>
+              <span class="admin-badge admin-badge-green">Visible</span>
+            <% end %>
+          </div>
+
+          <!-- created at -->
+          <div class="admin-table-cell">
+            <span class="admin-character-meta">
+              <%= l(topic.created_at.to_date, format: :long) rescue topic.created_at %>
+            </span>
+          </div>
+
+          <!-- actions -->
+          <div class="admin-table-cell admin-table-cell-actions">
+            <%= link_to "View",
+                        admin_topic_path(topic),
+                        class: "app-pill-button" %>
+
+            <% if Topic.column_names.include?("is_deleted") && topic.is_deleted? %>
+              <%= button_to "Unhide",
+                            unhide_admin_topic_path(topic),
+                            method: :patch,
+                            class: "app-pill-button" %>
+            <% else %>
+              <%= button_to "Hide",
+                            hide_admin_topic_path(topic),
+                            method: :patch,
+                            class: "app-pill-button" %>
+            <% end %>
+
+            <%= button_to "Delete",
+                          admin_topic_path(topic),
+                          method: :delete,
+                          data: { confirm: "Mark this topic as deleted?" },
+                          class: "app-pill-button app-pill-button-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="page-muted">No topics found.</p>
+  <% end %>
+</div>

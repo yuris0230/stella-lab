@@ -1,0 +1,36 @@
+<%= form_with model: [:admin, @guide], local: true do |f| %>
+  <div class="app-form-group">
+    <%= f.label :title, "Title", class: "app-form-label" %>
+    <%= f.text_field :title, class: "app-form-control" %>
+  </div>
+
+  <div class="app-form-group">
+    <%= f.label :slug, "Slug (URL)", class: "app-form-label" %>
+    <span class="app-form-hint">
+      If left blank, it will be generated from the title.
+    </span>
+    <%= f.text_field :slug, class: "app-form-control" %>
+  </div>
+
+  <div class="app-form-group">
+    <%= f.label :category, "Category", class: "app-form-label" %>
+    <%= f.text_field :category, class: "app-form-control" %>
+  </div>
+
+  <div class="app-form-group">
+    <%= f.label :body, "Body", class: "app-form-label" %>
+    <%= f.text_area :body, rows: 12, class: "app-form-control" %>
+  </div>
+
+  <div class="app-form-group app-form-inline">
+    <label class="app-checkbox">
+      <%= f.check_box :is_published %>
+      <span>Published</span>
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <%= link_to "Back", admin_guides_path, class: "app-button-secondary" %>
+    <%= f.submit "Save", class: "app-button-primary" %>
+  </div>
+<% end %>

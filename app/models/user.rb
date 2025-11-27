@@ -6,6 +6,9 @@ class User < ApplicationRecord
   # Profile (My Page)
   has_one :user_profile, dependent: :destroy
 
+  # Like
+  has_many :likes, dependent: :destroy
+
   # Community relations
   # Topic model: belongs_to :created_by_user, class_name: "User", foreign_key: :created_by_user_id
   has_many :topics,

@@ -1,5 +1,4 @@
 <div class="page-content">
-  <!-- Page header -->
   <header class="app-page-header">
     <h1 class="app-page-title">Latest posts</h1>
     <p class="app-page-subtitle">
@@ -7,31 +6,29 @@
     </p>
   </header>
 
-  <div class="d-flex justify-content-end mb-3">
   <% if @posts.any? %>
-    <ul class="list-unstyled">
-      <% @posts.each do |post| %>
-        <li class="mb-3 pb-3 border-bottom border-secondary">
-          <div class="d-flex justify-content-between">
+    <section class="home-section">
+      <ul class="simple-list">
+        <% @posts.each do |post| %>
+          <% author = post.user %>
+          <li class="simple-list-item">
             <div>
-              <strong>
-                <%= link_to post.topic.title, topic_path(post.topic), class: "text-light" %>
-              </strong>
-
-              <div class="small text-muted">
-                <%= post.user&.user_profile&.display_name || post.guest_name || "Guest" %>
+              <%= link_to post.topic.title,
+                          topic_path(post.topic, anchor: "post-#{post.id}"),
+                          class: "simple-list-link" %>
+              <div class="simple-list-meta">
+                <%= author&.user_profile&.display_name || author&.name || "Unknown user" %>
+                &nbsp;·&nbsp;
+                <%= l(post.created_at, format: :short) rescue post.created_at %>
               </div>
             </div>
-
-            <div class="small text-muted">
-              <%= l(post.created_at, format: :short) %>
-            </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+          </li>
+        <% end %>
+      </ul>
+    </section>
   <% else %>
-    <p class="text-muted">No posts have been created yet.</p>
+    <p class="page-muted">
+      There are no posts yet.
+    </p>
   <% end %>
-  </div>
 </div>

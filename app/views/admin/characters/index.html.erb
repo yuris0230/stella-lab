@@ -1,0 +1,96 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Characters</h1>
+    <p class="app-page-subtitle">
+      Manage basic character data, portraits and recommendations.
+    </p>
+  </header>
+
+  <div class="page-header-actions">
+    <%= link_to "+ New character",
+                new_admin_character_path,
+                class: "app-button-primary" %>
+  </div>
+
+  <% if @characters.any? %>
+    <div class="admin-table">
+      <!-- header row -->
+      <div class="admin-table-header">
+        <div class="admin-table-cell admin-table-cell-main">Character</div>
+        <div class="admin-table-cell">Rarity</div>
+        <div class="admin-table-cell">Element</div>
+        <div class="admin-table-cell">Role</div>
+        <div class="admin-table-cell">Published</div>
+        <div class="admin-table-cell admin-table-cell-actions"></div>
+      </div>
+
+      <!-- data rows -->
+      <% @characters.each do |ch| %>
+        <div class="admin-table-row">
+          <!-- main: portrait + name -->
+          <div class="admin-table-cell admin-table-cell-main">
+            <div class="admin-character-main">
+              <div class="admin-character-thumb">
+                <% if ch.portrait.attached? %>
+                  <%= image_tag ch.portrait.variant(resize_to_fill: [80, 100]),
+                                alt: ch.name %>
+                <% else %>
+                  <span><%= ch.name.to_s.first&.upcase || "?" %></span>
+                <% end %>
+              </div>
+              <div>
+                <%= link_to ch.name,
+                            admin_character_path(ch),
+                            class: "admin-character-name" %>
+                <% if ch.slug.present? %>
+                  <div class="admin-character-meta">
+                    Slug: <%= ch.slug %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- rarity -->
+          <div class="admin-table-cell">
+            <%= ch.rarity.present? ? ch.rarity.upcase : "-" %>
+          </div>
+
+          <!-- element -->
+          <div class="admin-table-cell">
+            <%= ch.element.present? ? ch.element.humanize : "-" %>
+          </div>
+
+          <!-- role / job enum -->
+          <div class="admin-table-cell">
+            <%= ch.job.present? ? ch.job.humanize : "-" %>
+          </div>
+
+          <!-- published badge -->
+          <div class="admin-table-cell">
+            <% published = ch.respond_to?(:is_published) ? ch.is_published : ch.published %>
+            <% if published %>
+              <span class="admin-badge admin-badge-green">Yes</span>
+            <% else %>
+              <span class="admin-badge admin-badge-gray">No</span>
+            <% end %>
+          </div>
+
+          <!-- Actions -->
+          <div class="admin-table-cell admin-table-cell-actions">
+            <%= link_to "Edit",
+                        edit_admin_character_path(ch),
+                        class: "app-pill-button" %>
+            <%= button_to "Delete",
+                          admin_character_path(ch),
+                          method: :delete,
+                          data: { confirm: "Delete this character? This cannot be undone." },
+                          class: "app-pill-button app-pill-button-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="page-muted">No characters yet. Click “+ New character” to create one.</p>
+  <% end %>
+</div>
