@@ -4,7 +4,14 @@ class CharactersController < ApplicationController
   def index
     # Base scope: order by name, only published for normal users
     characters = Character.order(:name)
-    characters = characters.where(is_published: true) unless admin_signed_in?
+    # hide soft-deleted characters if column exists
+    if Character.column_names.include?("is_deleted")
+      characters = characters.where(is_deleted: false)
+    end
+    # NOTE: is_published is not filtered here anymore to avoid characters
+    # disappearing for users when admins log out. If you want to use it,
+    # make sure it is set correctly on all records.
+    # characters = characters.where(is_published: true) unless admin_signed_in?
 
     # --- Basic text search by name (case-insensitive) ---
     @q = params[:q].to_s.strip
@@ -20,6 +27,9 @@ class CharactersController < ApplicationController
     # --- Filter by element (fire / water / wind / earth / light / dark) ---
     element_values = Array(params[:elements]).reject(&:blank?).map!(&:to_i)
     characters = characters.where(element: element_values) if element_values.present?
+
+    # preload associations used in views (likes + portrait)
+    characters = characters.includes(:likes, portrait_attachment: :blob)
 
     # If you want pagination later, you can add kaminari here:
     # @characters = characters.page(params[:page]).per(20)
