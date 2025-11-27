@@ -3,7 +3,14 @@ class Item < ApplicationRecord
   enum rarity: { unknown: 0, sr: 1, ssr: 2 }, _prefix: true
   enum item_type: { weapon: 0, armor: 1, accessory: 2, material: 3 }, _prefix: true
 
+  has_one_attached :icon
   has_many :topics, as: :topicable, dependent: :destroy
+
+  # Characters that recommend/ equip this item
+  has_many :character_recommended_items, dependent: :destroy
+  has_many :recommended_for_characters,
+           through: :character_recommended_items,
+           source: :character
 
   # Only show items that are published
   scope :published, -> { where(is_published: true) }

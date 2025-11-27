@@ -1,0 +1,106 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Edit character</h1>
+    <p class="app-page-subtitle">
+      Update basic data and recommended equipment / team.
+    </p>
+  </header>
+
+  <div class="auth-card">
+    <%= form_with model: [:admin, @character], local: true do |f| %>
+      <!-- Basic info -->
+      <div class="app-form-group">
+        <%= f.label :name, "Name", class: "app-form-label" %>
+        <%= f.text_field :name, class: "app-form-control" %>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :slug, "Slug", class: "app-form-label" %>
+        <%= f.text_field :slug, class: "app-form-control" %>
+        <span class="app-form-hint">Used in URL. Example: nanoha, hayate, etc.</span>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :rarity, "Rarity", class: "app-form-label" %>
+        <%= f.select :rarity, Character.rarities.keys, {}, class: "app-form-control" %>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :element, "Element", class: "app-form-label" %>
+        <%= f.select :element, Character.elements.keys, {}, class: "app-form-control" %>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :weapon_type, "Weapon type", class: "app-form-label" %>
+        <%= f.select :weapon_type, Character.weapon_types.keys, {}, class: "app-form-control" %>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :job, "Role", class: "app-form-label" %>
+        <%= f.select :job, Character.jobs.keys, {}, class: "app-form-control" %>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :released_on, "Release date", class: "app-form-label" %>
+        <%= f.date_field :released_on, class: "app-form-control" %>
+      </div>
+
+      <div class="app-form-group">
+        <label class="app-form-label">Published</label>
+        <label class="app-checkbox">
+          <%= f.check_box :is_published %>
+          <span>Visible on public site</span>
+        </label>
+      </div>
+
+      <div class="app-form-group">
+        <%= f.label :summary, "Summary", class: "app-form-label" %>
+        <%= f.text_area :summary, rows: 4, class: "app-form-control" %>
+      </div>
+
+      <hr class="my-3" />
+
+      <!-- Recommended equipment -->
+      <div class="app-form-group">
+        <label class="app-form-label">Recommended equipment</label>
+        <span class="app-form-hint">
+          Select items that are recommended for this character.
+        </span>
+        <%= f.collection_select :recommended_item_ids,
+                                @all_items,
+                                :id, :name,
+                                { include_hidden: false },
+                                { multiple: true, size: 6, class: "app-form-control" } %>
+      </div>
+
+      <!-- Recommended team -->
+      <div class="app-form-group">
+        <label class="app-form-label">Recommended team</label>
+        <span class="app-form-hint">
+          Select other characters that work well with this character.
+        </span>
+        <%= f.collection_select :recommended_teammate_ids,
+                                @team_candidates,
+                                :id, :name,
+                                { include_hidden: false },
+                                { multiple: true, size: 6, class: "app-form-control" } %>
+      </div>
+      
+      <div class="page-content auth-page">
+        <header class="app-page-header">
+          <h1 class="app-page-title">Edit character</h1>
+          <p class="app-page-subtitle">
+            Update character info and portrait.
+          </p>
+        </header>
+        <%= render "form" %>
+      </div>
+
+      <div class="form-actions">
+        <%= link_to "Cancel", admin_character_path(@character),
+                    class: "app-button-secondary" %>
+        <%= f.submit "Save changes", class: "app-button-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

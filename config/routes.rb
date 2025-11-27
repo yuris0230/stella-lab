@@ -48,6 +48,10 @@ Rails.application.routes.draw do
     # Admin member management
     resources :members, only: [:index, :show, :edit, :update]
 
+    # Characters & items
+    resources :characters
+    resources :items
+
     # Guides management
     resources :guides
   end

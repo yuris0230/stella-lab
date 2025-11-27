@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   # Public item list and detail pages
 
   def index
+    # base scope
     items = Item.order(:name)
     items = items.where(is_published: true) unless admin_signed_in?
 
@@ -20,11 +21,15 @@ class ItemsController < ApplicationController
     item_type_values = Array(params[:item_types]).reject(&:blank?).map!(&:to_i)
     items = items.where(item_type: item_type_values) if item_type_values.present?
 
-    # Pagination can be added here later with kaminari
-    @items = items
+    # N+1 for icon
+    @items = items.includes(icon_attachment: :blob)
   end
 
   def show
-    @item = Item.find_by!(slug: params[:id])
+    # if admin can see all items
+    scope = admin_signed_in? ? Item.all : Item.where(is_published: true)
+
+    # use slug if not found fallback id
+    @item = scope.find_by(slug: params[:id]) || scope.find(params[:id])
   end
 end
