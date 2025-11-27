@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_27_120310) do
+ActiveRecord::Schema.define(version: 2025_11_27_155849) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -192,6 +192,10 @@ ActiveRecord::Schema.define(version: 2025_11_27_120310) do
     t.boolean "locked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_deleted", default: false, null: false
+    t.integer "deleted_by_admin_id"
+    t.index ["deleted_by_admin_id"], name: "index_topics_on_deleted_by_admin_id"
+    t.index ["is_deleted"], name: "index_topics_on_is_deleted"
     t.index ["topicable_type", "topicable_id"], name: "index_topics_on_topicable_type_and_topicable_id"
   end
 
