@@ -32,17 +32,17 @@
       </div>
     </div>
 
-    <!-- Element checkboxes (simple emoji icons for now) -->
+    <!-- Element checkboxes -->
     <div class="filter-group">
       <div class="filter-group-label">Element</div>
       <div class="filter-pill-group">
         <% element_options = {
-          'Fire' => Character.elements[:fire],
+          'Fire'  => Character.elements[:fire],
           'Water' => Character.elements[:water],
-          'Wind' => Character.elements[:wind],
+          'Wind'  => Character.elements[:wind],
           'Earth' => Character.elements[:earth],
           'Light' => Character.elements[:light],
-          'Dark' => Character.elements[:dark]
+          'Dark'  => Character.elements[:dark]
         } %>
 
         <% element_options.each do |icon, value| %>
@@ -66,26 +66,55 @@
   <section class="home-section">
     <div class="character-grid">
       <% @characters.each do |ch| %>
-        <%= link_to character_path(ch), class: "character-card" do %>
-          <div class="character-card-image-wrap">
-            <% if ch.portrait.attached? %>
-              <%= image_tag ch.portrait.variant(resize_to_fill: [220, 260]),
-                            alt: ch.name,
-                            class: "character-card-image" %>
-            <% else %>
-              <div class="character-card-placeholder">
-                <span><%= ch.name.first.upcase %></span>
-              </div>
-            <% end %>
-          </div>
+        <div class="character-card">
+          <!-- detail -->
+          <%= link_to character_path(ch), class: "character-card-main" do %>
+            <div class="character-card-image-wrap">
+              <% if ch.portrait.attached? %>
+                <%= image_tag ch.portrait.variant(resize_to_fill: [220, 260]),
+                              alt: ch.name,
+                              class: "character-card-image" %>
+              <% else %>
+                <div class="character-card-placeholder">
+                  <span><%= ch.name.first.upcase %></span>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
 
+          <!-- Footer: ชื่อ, role, และปุ่มหัวใจ -->
           <div class="character-card-footer">
-            <div class="character-card-name"><%= ch.name %></div>
-            <% if ch.job.present? %>
-              <div class="character-card-role"><%= ch.job.humanize %></div>
-            <% end %>
+            <div class="character-footer-top">
+              <div>
+                <div class="character-card-name"><%= ch.name %></div>
+                <% if ch.job.present? %>
+                  <div class="character-card-role"><%= ch.job.humanize %></div>
+                <% end %>
+              </div>
+
+              <div class="character-card-like-inline">
+                <span class="character-like-count">
+                  ♥ <%= ch.likes.count %>
+                </span>
+
+                <% if user_signed_in? %>
+                  <% liked = ch.likes.exists?(user_id: current_user.id) %>
+                  <% heart_label = liked ? "♥" : "♡" %>
+
+                  <%= button_to heart_label,
+                                like_path,
+                                method: (liked ? :delete : :post),
+                                params: {
+                                  likeable_type: "Character",
+                                  likeable_id: ch.id
+                                },
+                                class: "like-heart-button",
+                                form: { class: "like-heart-form" } %>
+                <% end %>
+              </div>
+            </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
     </div>
   </section>

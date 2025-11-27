@@ -14,7 +14,7 @@
     <div class="home-row">
       <div class="home-row-body">
         <div class="home-row-label">
-          <%= (@profile&.display_name.presence || @user.email) %>
+          <%= display_name %>
         </div>
         <div class="home-row-meta">
           Joined <%= l(@user.created_at.to_date, format: :long) rescue @user.created_at.to_date %>
@@ -40,7 +40,7 @@
       <% if @profile&.bio.present? %>
         <p><%= simple_format(@profile.bio) %></p>
       <% else %>
-        <p class="text-muted mb-0">
+        <p class="page-muted mb-0">
           You have not written a bio yet.
         </p>
       <% end %>
@@ -56,18 +56,22 @@
       <h3 class="app-section-title">Your topics</h3>
 
       <% if @recent_topics.any? %>
-        <ul class="list-unstyled mb-0">
+        <ul class="simple-list">
           <% @recent_topics.each do |topic| %>
-            <li class="mb-2">
-              <%= link_to topic.title, topic_path(topic) %>
-              <span class="text-muted small">
-                &nbsp;(<%= l(topic.created_at, format: :short) rescue topic.created_at %>)
+            <li class="simple-list-item">
+              <%= link_to topic.title,
+                          topic_path(topic),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                <%= l(topic.created_at, format: :short) rescue topic.created_at %>
               </span>
             </li>
           <% end %>
         </ul>
       <% else %>
-        <p class="text-muted mb-0">You have not created any topics yet.</p>
+        <p class="page-muted mb-0">
+          You have not created any topics yet.
+        </p>
       <% end %>
     </div>
 
@@ -76,19 +80,102 @@
       <h3 class="app-section-title">Your posts</h3>
 
       <% if @recent_posts.any? %>
-        <ul class="list-unstyled mb-0">
+        <ul class="simple-list">
           <% @recent_posts.each do |post| %>
-            <li class="mb-2">
+            <li class="simple-list-item">
               <%= link_to truncate(post.body, length: 80),
-                          topic_path(post.topic, anchor: "post-#{post.id}") %>
-              <span class="text-muted small">
-                &nbsp;(<%= l(post.created_at, format: :short) rescue post.created_at %>)
+                          topic_path(post.topic, anchor: "post-#{post.id}"),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                in <%= post.topic.title %> ·
+                <%= l(post.created_at, format: :short) rescue post.created_at %>
               </span>
             </li>
           <% end %>
         </ul>
       <% else %>
-        <p class="text-muted mb-0">You have not posted anything yet.</p>
+        <p class="page-muted mb-0">
+          You have not posted anything yet.
+        </p>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Likes / Bookmarks -->
+  <section class="app-section-card mb-3">
+    <h2 class="app-section-title">
+      Likes
+    </h2>
+
+    <!-- Liked characters -->
+    <div class="app-section-card mb-3">
+      <h3 class="app-section-title">Characters</h3>
+
+      <% if @liked_characters.any? %>
+        <ul class="simple-list">
+          <% @liked_characters.each do |ch| %>
+            <li class="simple-list-item">
+              <%= link_to ch.name,
+                          character_path(ch),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                <%= ch.job.present? ? ch.job.humanize : "-" %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="page-muted mb-0">
+          You have not liked any characters yet.
+        </p>
+      <% end %>
+    </div>
+
+    <!-- Liked guides -->
+    <div class="app-section-card mb-3">
+      <h3 class="app-section-title">Guides</h3>
+
+      <% if @liked_guides.any? %>
+        <ul class="simple-list">
+          <% @liked_guides.each do |guide| %>
+            <li class="simple-list-item">
+              <%= link_to guide.title,
+                          guide_path(guide.slug),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                <%= l(guide.updated_at.to_date, format: :long) rescue guide.updated_at.to_date %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="page-muted mb-0">
+          You have not bookmarked any guides yet.
+        </p>
+      <% end %>
+    </div>
+
+    <!-- Liked topics -->
+    <div class="app-section-card">
+      <h3 class="app-section-title">Topics</h3>
+
+      <% if @liked_topics.any? %>
+        <ul class="simple-list">
+          <% @liked_topics.each do |topic| %>
+            <li class="simple-list-item">
+              <%= link_to topic.title,
+                          topic_path(topic),
+                          class: "simple-list-link" %>
+              <span class="simple-list-meta">
+                <%= l(topic.created_at, format: :short) rescue topic.created_at %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="page-muted mb-0">
+          You have not liked any topics yet.
+        </p>
       <% end %>
     </div>
   </section>

@@ -39,8 +39,8 @@ Rails.application.routes.draw do
   resource :profile, only: [:edit, :update], controller: "user_profiles"
   delete "users/withdraw", to: "users#destroy", as: :users_withdraw
 
-  # Favorites / likes (จะไปต่อใน feature 14)
-  get "favorites", to: "favorites#index", as: :favorites
+  # ---- Likes / bookmarks (user side) ----
+  resource :like, only: [:create, :destroy], controller: "likes"
 
   # ========= ADMIN SIDE =========
   namespace :admin do
