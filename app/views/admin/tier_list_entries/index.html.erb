@@ -1,0 +1,69 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">
+      Entries – <%= @tier_list.title %>
+    </h1>
+    <p class="app-page-subtitle">
+      Manage characters and ranks for this tier list.
+    </p>
+
+    <div class="page-header-actions">
+      <%= link_to "+ Add entry",
+                  new_admin_tier_list_tier_list_entry_path(@tier_list),
+                  class: "app-button-primary" %>
+    </div>
+  </header>
+
+  <% if @entries.any? %>
+    <div class="admin-table">
+      <div class="admin-table-header">
+        <div class="admin-table-cell admin-table-cell-main">Character</div>
+        <div class="admin-table-cell">Tier</div>
+        <div class="admin-table-cell admin-table-cell-actions"></div>
+      </div>
+
+      <% @entries.each do |entry| %>
+        <div class="admin-table-row">
+          <!-- Character portrait + name -->
+          <div class="admin-table-cell admin-table-cell-main">
+            <div class="admin-character-main">
+              <div class="admin-character-thumb">
+                <% if entry.character.portrait.attached? %>
+                  <%= image_tag entry.character.portrait.variant(resize_to_fill: [56, 72]),
+                                alt: entry.character.name %>
+                <% else %>
+                  <span><%= entry.character.name.to_s.first&.upcase || "?" %></span>
+                <% end %>
+              </div>
+              <div>
+                <div class="admin-character-name"><%= entry.character.name %></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier rank -->
+          <div class="admin-table-cell">
+            <span class="admin-pill"><%= entry.tier_rank %></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="admin-table-cell admin-table-cell-actions">
+            <%= link_to "Edit",
+                        edit_admin_tier_list_tier_list_entry_path(@tier_list, entry),
+                        class: "app-pill-button" %>
+
+            <%= button_to "Delete",
+                          admin_tier_list_tier_list_entry_path(@tier_list, entry),
+                          method: :delete,
+                          data: { confirm: "Delete this entry?" },
+                          class: "app-pill-button app-pill-button-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="page-muted">
+      No entries yet. Click “+ Add entry”.
+    </p>
+  <% end %>
+</div>

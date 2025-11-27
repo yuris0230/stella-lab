@@ -1,0 +1,91 @@
+<div class="page-content">
+  <header class="app-page-header">
+    <h1 class="app-page-title">Tier lists</h1>
+    <p class="app-page-subtitle">
+      Manage tier lists and their entries.
+    </p>
+  </header>
+
+  <div class="page-header-actions">
+    <%= link_to "+ New tier list",
+                new_admin_tier_list_path,
+                class: "app-button-primary" %>
+  </div>
+
+  <% if @tier_lists.any? %>
+    <div class="admin-table">
+      <!-- header row -->
+      <div class="admin-table-header">
+        <div class="admin-table-cell admin-table-cell-main">Title</div>
+        <div class="admin-table-cell">Entries</div>
+        <div class="admin-table-cell">Published</div>
+        <div class="admin-table-cell">Updated</div>
+        <div class="admin-table-cell admin-table-cell-actions"></div>
+      </div>
+
+      <!-- data rows -->
+      <% @tier_lists.each do |list| %>
+        <div class="admin-table-row">
+          <!-- Title (same layout style as characters/items) -->
+          <div class="admin-table-cell admin-table-cell-main">
+            <div class="admin-character-main">
+              <div class="admin-character-name">
+                <%= link_to list.title,
+                            admin_tier_list_tier_list_entries_path(list),
+                            class: "admin-character-name" %>
+
+                <% if list.respond_to?(:description) && list.description.present? %>
+                  <div class="admin-character-meta">
+                    <%= truncate(list.description, length: 60) %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entries count -->
+          <div class="admin-table-cell">
+            <span class="admin-pill">
+              <%= list.tier_list_entries.size %>
+            </span>
+          </div>
+
+          <!-- Published -->
+          <div class="admin-table-cell">
+            <span class="admin-status-pill <%= list.is_published? ? 'is-on' : 'is-off' %>">
+              <%= list.is_published? ? "Yes" : "No" %>
+            </span>
+          </div>
+
+          <!-- Updated at -->
+          <div class="admin-table-cell">
+            <span class="admin-character-meta">
+              <%= l(list.updated_at.to_date, format: :long) rescue list.updated_at %>
+            </span>
+          </div>
+
+          <!-- Actions (same buttons style/size as characters/items) -->
+          <div class="admin-table-cell admin-table-cell-actions">
+            <%= link_to "Entries",
+                        admin_tier_list_tier_list_entries_path(list),
+                        class: "app-pill-button" %>
+
+            <%= link_to "Edit",
+                        edit_admin_tier_list_path(list),
+                        class: "app-pill-button" %>
+
+            <%= button_to "Delete",
+                          admin_tier_list_path(list),
+                          method: :delete,
+                          data: { confirm: "Delete this tier list? This cannot be undone." },
+                          class: "app-pill-button app-pill-button-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="page-muted">
+      No tier lists have been created yet.
+    </p>
+  <% end %>
+</div>

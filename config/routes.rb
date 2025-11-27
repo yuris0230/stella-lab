@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :topics, only: [:new, :create]
   end
 
-  resources :guides,     only: [:index, :show]
+  resources :guides, only: [:index, :show]
   resources :tier_lists, only: [:index, :show]
 
   # Community content
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     root to: "dashboard#index"
 
     # Home / About content editors
-    resource :home,  only: [:edit, :update], controller: "home"
+    resource :home, only: [:edit, :update], controller: "home"
     resource :about, only: [:edit, :update], controller: "about"
 
     # Admin member management
@@ -51,6 +51,12 @@ Rails.application.routes.draw do
     # Characters & items
     resources :characters
     resources :items
+
+
+    # Tier lists + entries (NESTED)
+    resources :tier_lists do
+      resources :tier_list_entries, only: [:index, :new, :create, :edit, :update, :destroy]
+    end
 
     # Guides management
     resources :guides

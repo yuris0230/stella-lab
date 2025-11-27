@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_26_235047) do
+ActiveRecord::Schema.define(version: 2025_11_27_120310) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -167,7 +167,7 @@ ActiveRecord::Schema.define(version: 2025_11_26_235047) do
   create_table "tier_list_entries", force: :cascade do |t|
     t.integer "tier_list_id", null: false
     t.integer "character_id", null: false
-    t.integer "tier_rank", null: false
+    t.string "tier_rank", null: false
     t.string "notes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -1,0 +1,52 @@
+<div class="page-content">
+  <div class="home-page">
+    <section class="home-hero">
+      <h1 class="home-title"><%= @tier_list.title %></h1>
+
+      <% if @tier_list.respond_to?(:description) && @tier_list.description.present? %>
+        <p class="home-lead"><%= simple_format(@tier_list.description) %></p>
+      <% else %>
+        <p class="home-lead">
+          Characters are grouped by tier. Click a card to see character details.
+        </p>
+      <% end %>
+    </section>
+
+    <% if @entries.any? %>
+      <% @entries.group_by(&:tier_rank).each do |rank, entries| %>
+        <section class="home-section">
+          <h2 class="home-section-title">Tier <%= rank %></h2>
+
+          <div class="character-grid">
+            <% entries.each do |entry| %>
+              <% ch = entry.character %>
+              <%= link_to character_path(ch), class: "character-card" do %>
+                <div class="character-card-image-wrap">
+                  <% if ch.portrait.attached? %>
+                    <%= image_tag ch.portrait.variant(resize_to_fill: [300, 400]),
+                                  class: "character-card-image",
+                                  alt: ch.name %>
+                  <% else %>
+                    <div class="character-card-placeholder">
+                      <%= ch.name.first.upcase %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="character-card-footer">
+                  <div class="character-card-name"><%= ch.name %></div>
+                  <div class="character-card-role">
+                    <%= [ch.rarity&.upcase, ch.element&.humanize, ch.job&.humanize].compact.join(" · ") %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+    <% else %>
+      <p class="page-muted">
+        No entries in this tier list yet.
+      </p>
+    <% end %>
+  </div>
+</div>
