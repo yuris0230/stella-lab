@@ -923,6 +923,14 @@ body.app-body {
   color: var(--app-text-main);
   font-size: 0.95rem;
   margin: 0 auto;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
+  select.app-form-control {
+    min-height: 48px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .app-form-control:focus {
@@ -1071,6 +1079,16 @@ body.app-body {
 .character-card-name {
   font-size: 0.95rem;
   font-weight: 600;
+  color: var(--app-text-main);
+  text-decoration: none;
+}
+
+.character-card-name:visited {
+  color: var(--app-text-main);
+}
+
+.character-card-name:visited {
+  color: var(--app-text-main);
 }
 
 .character-card-role {

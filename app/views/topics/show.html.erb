@@ -3,7 +3,9 @@
   <header class="page-header">
     <h1 class="page-title"><%= @topic.title %></h1>
     <p class="page-lead">
-      Started by <%= @topic.creator.display_name %>
+      <% creator = @topic.created_by_user %>
+      Started by
+      <%= creator&.user_profile&.display_name || creator&.name || "Unknown user" %>
       · <%= @topic.created_at.strftime('%Y-%m-%d %H:%M') %>
       <% if @topic.locked? || @topic.status_closed? %>
         · <span class="topic-pill topic-pill-locked">Locked</span>
@@ -18,7 +20,10 @@
         <article class="post-card">
           <header class="post-meta">
             <div class="post-author">
-              <strong><%= post.user.display_name %></strong>
+              <% author = post.user %>
+              <strong>
+                <%= author&.user_profile&.display_name || author&.name || "Unknown user" %>
+              </strong>
             </div>
             <div class="post-time">
               <%= post.created_at.strftime('%Y-%m-%d %H:%M') %>
@@ -52,8 +57,9 @@
         </div>
       <% end %>
 
-      <%= form_with model: @post, url: topic_posts_path(@topic),
-                    local: true, html: { class: 'post-form' } do |f| %>
+      <%= form_with model: [@topic, @post],
+              local: true,
+              html: { class: 'post-form' } do |f| %>
         <div class="form-group">
           <%= f.label :body, 'Message', class: 'form-label' %>
           <%= f.text_area :body, rows: 5, class: 'form-textarea',

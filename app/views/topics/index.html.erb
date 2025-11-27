@@ -1,47 +1,56 @@
 <div class="page-content">
-  <!-- Page header -->
-  <header class="app-page-header">
-    <h1 class="app-page-title">Topics</h1>
-    <p class="app-page-subtitle">
+  <header class="page-header">
+    <h1 class="page-title">Topics</h1>
+    <p class="page-lead">
       Community topics and discussions. Feel free to read and join the conversation.
+    </p>
+    <p class="page-muted">
+      To start a new topic, open a character or item page and click “Start topic”.
     </p>
   </header>
 
-  <!-- Action row: 안내เฉย ๆ / login -->
-  <div class="d-flex justify-content-end mb-3">
-    <% if user_signed_in? %>
-      <span class="text-muted small">
-        To start a new topic, open a character or item page and click “Start topic”.
-      </span>
-    <% else %>
-      <%= link_to "Log in to start a topic",
-                  new_user_session_path,
-                  class: "btn btn-outline-light btn-sm" %>
-    <% end %>
-  </div>
-
-  <!-- Topics list -->
   <% if @topics.present? %>
-    <ul class="list-unstyled">
-      <% @topics.each do |topic| %>
-        <li class="mb-3 pb-3 border-bottom border-secondary">
-          <div class="d-flex justify-content-between">
-            <div>
-              <strong>
-                <%= link_to topic.title, topic_path(topic), class: "text-light" %>
-              </strong>
-              <div class="small text-muted">
-                <%= topic.created_at.strftime("%Y-%m-%d %H:%M") %>
+    <section class="page-section">
+      <div class="topic-list">
+        <% @topics.each do |topic| %>
+          <% creator = topic.created_by_user %>
+
+          <div class="topic-row">
+            <%= link_to topic_path(topic), class: "topic-row-link" do %>
+              <div class="topic-row-main">
+                <div class="topic-row-title"><%= topic.title %></div>
               </div>
-            </div>
-            <div class="small text-muted">
-              <%= pluralize(topic.posts.count, "post") %>
-            </div>
+
+              <div class="topic-row-meta">
+                <span class="topic-row-meta-item">
+                  Started by
+                  <%= creator&.user_profile&.display_name ||
+                      creator&.name ||
+                      "Unknown user" %>
+                </span>
+
+                <span class="topic-row-meta-item">
+                  <%= topic.posts.size %> <%= "post".pluralize(topic.posts.size) %>
+                </span>
+
+                <span class="topic-row-meta-item">
+                  <%= topic.created_at.strftime('%Y-%m-%d %H:%M') %>
+                </span>
+
+                <% if topic.locked? || topic.status_closed? %>
+                  <span class="topic-row-meta-item">
+                    <span class="topic-pill topic-pill-locked">Locked</span>
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
           </div>
-        </li>
-      <% end %>
-    </ul>
+        <% end %>
+      </div>
+    </section>
   <% else %>
-    <p class="text-muted">No topics have been created yet.</p>
+    <p class="page-muted">
+      There are no topics yet. Be the first to start one from a character or item page.
+    </p>
   <% end %>
 </div>
