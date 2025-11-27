@@ -5,6 +5,9 @@ class Guide < ApplicationRecord
   validates :title, :slug, :body, :category, presence: true
   validates :slug, uniqueness: true
 
+  # Like
+  has_many :likes, as: :likeable, dependent: :destroy
+
   # Only published guides are shown on public side
   scope :published, -> { where(is_published: true) }
 

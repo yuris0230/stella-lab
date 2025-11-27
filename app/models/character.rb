@@ -8,6 +8,9 @@ class Character < ApplicationRecord
   has_one_attached :portrait
   has_many :topics, as: :topicable, dependent: :destroy
 
+  # Like
+  has_many :likes, as: :likeable, dependent: :destroy
+
   # --- Recommended equipment (items) ---
   has_many :character_recommended_items, dependent: :destroy
   has_many :recommended_items, through: :character_recommended_items, source: :item

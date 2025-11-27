@@ -17,7 +17,31 @@
               <%= link_to guide.title,
                           guide_path(guide.slug),
                           class: "simple-list-link" %>
+
               <span class="simple-list-meta">
+                <!-- like count -->
+                ♥ <%= guide.likes.count %>
+
+                <% if user_signed_in? %>
+                  <% if liked_by_current_user?(guide) %>
+                    <%= link_to "Unlike",
+                                like_path(likeable_type: "Guide", likeable_id: guide.id),
+                                method: :delete,
+                                class: "app-pill-button",
+                                style: "margin-left: 8px;",
+                                data: { turbo: false } %>
+                  <% else %>
+                    <%= link_to "Like",
+                                like_path(likeable_type: "Guide", likeable_id: guide.id),
+                                method: :post,
+                                class: "app-pill-button",
+                                style: "margin-left: 8px;",
+                                data: { turbo: false } %>
+                  <% end %>
+                <% end %>
+
+                <!-- separator + date -->
+                &nbsp;·
                 <%= l(guide.updated_at.to_date, format: :long) rescue guide.updated_at.to_date %>
               </span>
             </li>

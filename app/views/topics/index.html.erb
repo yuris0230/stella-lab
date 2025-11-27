@@ -16,6 +16,7 @@
           <% creator = topic.created_by_user %>
 
           <div class="topic-row">
+            <!-- คลิกทั้งกล่องนี้ไปหน้า topic -->
             <%= link_to topic_path(topic), class: "topic-row-link" do %>
               <div class="topic-row-main">
                 <div class="topic-row-title"><%= topic.title %></div>
@@ -44,6 +45,29 @@
                 <% end %>
               </div>
             <% end %>
+
+            <!-- แถว like ด้านล่าง (อยู่นอกลิงก์หลัก) -->
+            <div class="topic-row-actions" style="margin-top: 6px; display: flex; justify-content: flex-end; gap: 8px; align-items: center;">
+              <span class="topic-row-meta-item" style="color: var(--app-text-muted);">
+                ♥ <%= topic.likes.count %>
+              </span>
+
+              <% if user_signed_in? %>
+                <% if liked_by_current_user?(topic) %>
+                  <%= link_to "Unlike",
+                              like_path(likeable_type: "Topic", likeable_id: topic.id),
+                              method: :delete,
+                              class: "app-pill-button",
+                              data: { turbo: false } %>
+                <% else %>
+                  <%= link_to "Like",
+                              like_path(likeable_type: "Topic", likeable_id: topic.id),
+                              method: :post,
+                              class: "app-pill-button",
+                              data: { turbo: false } %>
+                <% end %>
+              <% end %>
+            </div>
           </div>
         <% end %>
       </div>

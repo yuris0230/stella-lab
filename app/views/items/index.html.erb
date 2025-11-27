@@ -1,3 +1,4 @@
+<!-- app/views/items/index.html.erb -->
 <div class="page-content">
   <!-- Page header for Items list -->
   <header class="page-header">
@@ -13,7 +14,9 @@
     <!-- Text search -->
     <div class="filter-search">
       <label class="filter-label" for="item_q">Search</label>
-      <%= text_field_tag :q, @q, id: 'item_q', class: 'filter-search-input', placeholder: 'Search items…' %>
+      <%= text_field_tag :q, @q, id: 'item_q',
+                         class: 'filter-search-input',
+                         placeholder: 'Search items…' %>
     </div>
 
     <!-- Rarity (SR / SSR etc.) -->
@@ -23,9 +26,11 @@
         <% rarity_options = { 'SR' => Item.rarities[:sr], 'SSR' => Item.rarities[:ssr] } %>
         <% rarity_options.each do |label, value| %>
           <% id = "item_rarity_#{label.downcase}" %>
-          <%= check_box_tag 'rarities[]', value,
+          <%= check_box_tag 'rarities[]',
+                            value,
                             Array(params[:rarities]).include?(value.to_s),
-                            id: id, class: 'filter-pill-input' %>
+                            id: id,
+                            class: 'filter-pill-input' %>
           <label class="filter-pill" for="<%= id %>"><%= label %></label>
         <% end %>
       </div>
@@ -44,9 +49,11 @@
 
         <% type_options.each do |label, value| %>
           <% id = "item_type_#{value}" %>
-          <%= check_box_tag 'item_types[]', value,
+          <%= check_box_tag 'item_types[]',
+                            value,
                             Array(params[:item_types]).include?(value.to_s),
-                            id: id, class: 'filter-pill-input' %>
+                            id: id,
+                            class: 'filter-pill-input' %>
           <label class="filter-pill" for="<%= id %>"><%= label %></label>
         <% end %>
       </div>
@@ -65,10 +72,57 @@
       <ul class="simple-list">
         <% @items.each do |item| %>
           <li class="simple-list-item">
-            <%= link_to item.name, item_path(item), class: 'simple-list-link' %>
-            <span class="simple-list-meta">
-              <%= item.rarity.upcase %> · <%= item.item_type.capitalize %>
-            </span>
+            <%= link_to item_path(item), class: 'simple-list-link item-list-link' do %>
+              <div class="item-list-row" style="display:flex; align-items:center; gap:12px;">
+
+                <!-- Icon / image -->
+                <div class="item-list-thumb" style="width:48px; height:48px; flex-shrink:0;">
+                  <% if item.respond_to?(:icon) && item.icon.attached? %>
+                    <%= image_tag item.icon.variant(resize_to_fill: [48, 48]),
+                                  alt: item.name,
+                                  class: "item-list-thumb-image",
+                                  style: "width:48px;height:48px;border-radius:12px;object-fit:cover;" %>
+                  <% elsif item.respond_to?(:image) && item.image.attached? %>
+                    <%= image_tag item.image.variant(resize_to_fill: [48, 48]),
+                                  alt: item.name,
+                                  class: "item-list-thumb-image",
+                                  style: "width:48px;height:48px;border-radius:12px;object-fit:cover;" %>
+                  <% else %>
+                    <div class="item-list-thumb-placeholder"
+                         style="width:48px;height:48px;border-radius:12px;
+                                background:rgba(255,255,255,0.04);
+                                display:flex;align-items:center;justify-content:center;
+                                font-weight:600;">
+                      <span><%= item.name.to_s.first&.upcase || "?" %></span>
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- Name + meta -->
+                <div class="item-list-body">
+                  <div class="item-list-name" style="font-weight:600;">
+                    <%= item.name %>
+                  </div>
+                  <div class="item-list-meta" style="font-size:0.9rem; opacity:0.7;">
+                    <% rarity_text =
+                         if item.respond_to?(:rarity) && item.rarity.present?
+                           item.rarity.to_s.upcase
+                         else
+                           "-"
+                         end %>
+                    <% type_text =
+                         if item.respond_to?(:item_type) && item.item_type.present?
+                           item.item_type.to_s.humanize
+                         else
+                           "-"
+                         end %>
+
+                    <%= rarity_text %> · <%= type_text %>
+                  </div>
+                </div>
+
+              </div>
+            <% end %>
           </li>
         <% end %>
       </ul>
